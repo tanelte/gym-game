@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Girl Gym</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,6 +121,17 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
 #jobPanel b{font-family:var(--display);font-size:12px;color:var(--gold)}
 #jobTime{font-style:normal;font-weight:800;font-variant-numeric:tabular-nums;color:var(--mint)}
 #jobTime.late{color:var(--bad)}
+.invite-card{background:radial-gradient(circle at 12% 18%,rgba(255,93,143,.35) 0 6px,transparent 7px),radial-gradient(circle at 88% 12%,rgba(255,201,74,.4) 0 5px,transparent 6px),radial-gradient(circle at 82% 86%,rgba(111,224,184,.35) 0 7px,transparent 8px),radial-gradient(circle at 10% 90%,rgba(143,124,247,.4) 0 5px,transparent 6px),var(--panel-solid);border:2px dashed var(--accent);text-align:center}
+.invite-card h1{font-size:clamp(26px,6vw,38px);color:var(--accent)}
+.inv-guests{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.inv-label{width:100%;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.inv-empty{font-size:13px;color:var(--muted)}
+.inv-guest{display:flex;gap:8px;align-items:center;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-weight:800}
+.inv-guest i{width:14px;height:14px;border-radius:50%}
+.inv-guest.on{border-color:var(--gold);background:rgba(255,201,74,.16)}
+.inv-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.mail-row{font-size:12px;font-weight:700;color:var(--mint);background:rgba(111,224,184,.1);border-radius:8px;padding:5px 8px;line-height:1.35}
+.mail-row.new{color:var(--gold);background:rgba(255,201,74,.14);animation:bob 1.2s ease-in-out infinite}
 .money-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800}
 .money-row span{display:flex;align-items:center;gap:6px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:11px}
 .money-row b{color:var(--gold);font-family:var(--display);font-size:14px;font-variant-numeric:tabular-nums}
@@ -135,6 +148,7 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
 .rlist li b{font-variant-numeric:tabular-nums}
 #rOk{justify-content:center;font-size:15px;padding:12px 18px;font-family:var(--display);font-weight:700}
 #mini.race #zone,#mini.race #repBtn{display:none}
+#mini.show #stopBtn{display:none}
 #mini.race #marker{background:var(--gold)}
 #mini{position:absolute;left:50%;bottom:var(--sb);transform:translateX(-50%);width:min(560px,calc(100% - 32px));padding:14px 18px;display:grid;gap:10px}
 .mini-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
@@ -169,6 +183,17 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
 .keys{list-style:none;margin:0;padding:12px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--muted)}
 .keys kbd{font-size:10px;padding:2px 5px;margin-right:3px}
 #go,#cont{justify-content:center;font-size:15px;padding:12px 18px;font-family:var(--display);font-weight:700}
+#newGame{justify-content:center}
+.save-info{background:rgba(111,224,184,.1);border:1px solid rgba(111,224,184,.3);border-radius:10px;padding:8px 12px;font-weight:800;font-size:13px!important;color:var(--mint)!important;text-align:center}
+#newBtn{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:8px;padding:3px 8px;font-size:12px}
+.btn.danger{background:var(--bad);color:#2b0b0b}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+#confirmNew{z-index:5;background:rgba(12,8,16,.78)}
+#confirmNew .card{border-color:rgba(255,143,143,.45);width:min(420px,100%)}
+#confirmNew h1{font-size:clamp(26px,6vw,34px)}
+#confirmNew .eyebrow{color:var(--bad)}
+.confirm-btns{display:flex;gap:8px;flex-wrap:wrap}
+.confirm-btns .btn{flex:1 1 150px;justify-content:center;padding:11px 14px}
 .medal{width:120px;height:150px;margin:0 auto;position:relative}
 .medal .rib{position:absolute;top:0;width:34px;height:70px}
 .medal .rib.l{left:28px;background:var(--accent);transform:skewX(14deg)}
@@ -223,6 +248,7 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
     <div><div class="en-row"><span>Energia</span><b id="enTxt">100</b></div><div class="bar"><i id="enBar"></i></div></div>
     <div class="money-row"><span><i class="coin"></i>Raha</span><b id="moneyTxt">15 €</b></div>
     <div class="bag-row" id="bagRow" hidden><span id="bagTxt"></span><button id="eatBtn"><kbd>F</kbd>Söö</button></div>
+    <div class="mail-row" id="mailRow" hidden></div>
     <div class="medals" id="medalRow" hidden></div>
   </div>
 
@@ -238,6 +264,7 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
   <div id="help" class="panel" hidden>
     <span><kbd>WASD</kbd> liigu</span><span><kbd>Shift</kbd> jookse</span><span><kbd>E</kbd> suhtle</span><span>Lohista: kaamera</span>
     <button id="muteBtn" aria-label="Heli sisse või välja">Heli: sees</button>
+    <button id="newBtn" aria-label="Alusta uut mängu">Uus mäng</button>
   </div>
 
   <div id="dialog" class="panel" hidden>
@@ -268,18 +295,29 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
       <button class="btn" id="rOk">Tore!</button>
     </div>
   </div>
+  <div id="invite" class="overlay" hidden>
+    <div class="card invite-card">
+      <p class="eyebrow" id="invEyebrow">Kutse</p>
+      <h1 id="invTitle">Sünnipäevapidu!</h1>
+      <p id="invText"></p>
+      <div id="invGuests" class="inv-guests"></div>
+      <div class="inv-btns"><button class="btn" id="invOk">Saada kutsed</button><button class="btn ghost" id="invLater" hidden>Hiljem</button><button class="btn ghost" id="invNo">Tühista</button></div>
+    </div>
+  </div>
   <div id="fade"><span id="fadeTxt"></span></div>
   <div id="joy" hidden><i></i></div>
   <button id="act" hidden>E</button>
 
   <div id="start" class="overlay">
     <div class="card">
-      <p class="eyebrow">3D treeningmäng</p>
+      <p class="eyebrow" id="startEyebrow">3D treeningmäng</p>
       <h1>Girl <em>Gym</em></h1>
       <p>Astu sisse, tutvu treeneritega ja täida nende väljakutsed. Kes kõik ülesanded ära teeb, saab kuu liikme medali. Kui väsid, mine koju ja maga end välja.</p>
+      <p class="save-info" id="saveInfo" hidden></p>
       <div class="pick"><span>Treeningsärk</span><div class="sw" id="topSw"></div></div>
       <div class="pick"><span>Juuksed</span><div class="sw" id="hairSw"></div></div>
       <button class="btn" id="go">Astu sisse</button>
+      <button class="btn ghost" id="newGame" hidden>Alusta uut mängu</button>
       <ul class="keys">
         <li><kbd>W A S D</kbd>liigu</li><li><kbd>Shift</kbd>jookse</li><li><kbd>E</kbd>räägi või alusta</li><li><kbd>Tühik</kbd>tee kordus</li><li>Lohista hiirega, et kaamerat pöörata</li>
       </ul>
@@ -300,6 +338,18 @@ kbd{font-family:var(--display);font-size:11px;font-weight:700;background:var(--t
       </div>
       <p style="text-align:center;font-size:13px">Kordusi kokku: <b id="eReps" style="color:var(--text)">0</b></p>
       <button class="btn" id="cont">Jätka treenimist</button>
+    </div>
+  </div>
+
+  <div id="confirmNew" class="overlay" role="dialog" aria-modal="true" aria-labelledby="cnTitle" hidden>
+    <div class="card">
+      <p class="eyebrow">Uus mäng</p>
+      <h1 id="cnTitle">Alusta otsast?</h1>
+      <p>Kogu senine edu kustutatakse: tase, jõud, raha, ülesanded, medalid ja sõbrad. Seda ei saa tagasi võtta.</p>
+      <div class="confirm-btns">
+        <button class="btn ghost" id="cnNo">Ei, jätka mängu</button>
+        <button class="btn danger" id="cnYes" disabled>Jah, kustuta kõik</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1023,7 +1073,7 @@ function updateCat(dt, t) {
 function catSay(text) { cat.bubbleEl.textContent = text; cat.bubbleEl.hidden = false; cat.bubbleUntil = clock.elapsedTime + 2.4; }
 
 // ---------------------------------------------------------------- outdoors
-const OUT = { hw: 74, hd: 20 };
+const OUT = { hw: 84, hd: 20 };
 const drops = [];
 const KRISTI_PATH = Array.from({ length: 16 }, (_, i) => [9 * Math.sin(i / 16 * TAU), 10 + 6 * Math.cos(i / 16 * TAU)]);
 function buildOutside() {
@@ -1043,7 +1093,7 @@ function buildOutside() {
   ground.rotation.x = -Math.PI / 2;
   const stoneTex = rep => speckTex('#d9d3cb', ['#c9c2b8', '#e6e1da', '#bdb5aa'], rep, true);
   const flat = (w, d, x, z, tex, y = .01) => { tex.repeat.set(w / 1.2, d / 1.2); const m = mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshStandardMaterial({ map: tex, roughness: .9 }), x, y, z, scene, false); m.rotation.x = -Math.PI / 2; return m; };
-  flat(156, 2.4, 0, -3.6, stoneTex());
+  flat(176, 2.4, 0, -3.6, stoneTex());
   flat(2, 6.4, 0, .8, stoneTex());
   flat(5, 5, -22, 8.3, speckTex('#4b5870', ['#5d6b86', '#3a4558', '#7d8bb0'], [1, 1], false), .012);
   // running track around the fountain
@@ -1082,14 +1132,22 @@ function buildOutside() {
   }
   box(1.8, .15, .9, C.white, 15, .075, -4.55);
   const mail = group(17.6, 0, -2.2); cyl(.04, .04, 1, C.dark, 0, .5, 0, mail, 6); box(.3, .25, .45, C.coral, 0, 1.1, 0, mail);
+  mailFlag = new THREE.Group(); mailFlag.position.set(.17, 1.05, -.12); mail.add(mailFlag);
+  box(.02, .32, .02, C.dark, 0, .16, 0, mailFlag, false); box(.02, .1, .14, M(0xd8323c, { r: .5 }), 0, .27, .07, mailFlag, false);
+  mailEnv = new THREE.Group(); mailEnv.position.set(17.6, 2.3, -2.2); mailEnv.scale.setScalar(1.9); scene.add(mailEnv);
+  mesh(new THREE.BoxGeometry(.42, .28, .02), new THREE.MeshBasicMaterial({ color: 0xfff3e0 }), 0, 0, 0, mailEnv, false);
+  const flap = new THREE.Shape(); flap.moveTo(-.21, .14); flap.lineTo(.21, .14); flap.lineTo(0, -.02); flap.lineTo(-.21, .14);
+  for (const s of [-1, 1]) { const fm = mesh(new THREE.ShapeGeometry(flap), new THREE.MeshBasicMaterial({ color: 0xff9fb2 }), 0, 0, s * .012, mailEnv, false); fm.rotation.y = s < 0 ? Math.PI : 0; }
+  sph(.035, new THREE.MeshBasicMaterial({ color: 0xff5d8f }), 0, .02, .02, mailEnv, false);
+  mailEnv.visible = false;
   addCol(17.6, -2.2, .3, .3);
-  addCol(0, -12.6, 156, 15.2);
+  addCol(0, -12.6, 176, 15.2);
   for (const id in FRIEND_HOUSES) friendHouse(id);
   for (const id in PLACES) storefront(id);
 
   busStop(-4, -1.3, 0);
   // lamp posts along the pavement
-  for (const x of [-64, -54.5, -45.5, -42, -34, -24, -8, 8, 24, 29, 37, 45, 54.5, 63.5, 72.5]) {
+  for (const x of [-81.5, -72.5, -64, -54.5, -45.5, -42, -34, -24, -8, 8, 24, 29, 37, 45, 54.5, 63.5, 72.5, 81.5]) {
     cyl(.06, .08, 3.2, C.dark, x, 1.6, -2.1, scene, 8);
     mesh(new THREE.SphereGeometry(.22, 12, 10), new THREE.MeshStandardMaterial({ color: 0xfff6e0, emissive: 0xffe2a8, emissiveIntensity: .6 }), x, 3.3, -2.1);
     addCol(x, -2.1, .25, .25);
@@ -1146,7 +1204,7 @@ function buildOutside() {
   for (const [x, z, s] of [[-26, 1, 1.1], [-25, 15, 1.2], [-18, 18, 1], [-11, 19, 1.1], [-26.5, 8, .9], [26, 1, 1.1], [25.5, 15, 1.2], [18, 18, 1], [11, 19, 1.1], [26.5, 11.5, .9], [-14, 13, 1], [14, 13.5, 1.05], [-4, 18.5, .9], [4.5, 19, 1]]) tree(x, z, s, true);
   for (let i = 0; i < 120; i++) {
     const x = (rnd() - .5) * 190, z = -45 + rnd() * 110;
-    if (Math.abs(x) < 78 && z > -21 && z < 22) continue;
+    if (Math.abs(x) < 88 && z > -21 && z < 22) continue;
     tree(x, z, .9 + rnd() * .7, false);
   }
   for (const [x, z] of [[-9, 3], [9, 3.5], [-20, 15], [20, 13], [-6, 17], [7, 16.5]]) { const b = mesh(new THREE.IcosahedronGeometry(.6, 0), leaves[1], x, .4, z); b.scale.y = .7; }
@@ -1238,8 +1296,10 @@ const guests = [];
 const invite = { picked: [] };
 function phoneNode() {
   const friends = FRIENDABLE.filter(id => S.friends.includes(id));
+  if (S.party) return partyPhoneNode();
   if (guests.length) return node(`Sul on külas ${guests.map(g => g.name).join(', ')}. Kas pidu jätkub?`, [
     ['Jah, pidutseme edasi!'],
+    ...(S.sleepover ? [] : [['Jääge ööseks! (pidžaamapidu)', () => { startHomeSleepover(); return null; }]]),
     ['Aitäh, et tulite! Head ööd!', () => { sendGuestsHome(); return null; }],
   ]);
   if (!friends.length) return node('Sul pole veel ühegi sõbra numbrit. Räägi jõusaalis ja pargis inimestega, siis saad sõpru juurde!', [['Pane telefon ära']]);
@@ -1250,6 +1310,7 @@ function phoneNode() {
     return phoneNode();
   }]);
   if (invite.picked.length) opts.push(['Helista ja kutsu külla!', () => { inviteFriends(); return null; }]);
+  opts.unshift([`Korralda sünnipäevapidu · ${PARTY_COST} €`, () => partyNode()]);
   opts.push(['Pane telefon ära']);
   return node(names.length ? `Keda kutsud külla? Valitud: ${names.join(', ')}.` : `Keda kutsud külla? Vali kuni ${GUEST_SPOTS.length} sõpra.`, opts);
 }
@@ -1279,6 +1340,7 @@ function spawnGuest(id, spot) {
   labelsEl.appendChild(el);
   const g = { id, name: npcById(id).name, char: ch, spot, el, bubbleEl: el.querySelector('.bubble'), bubbleUntil: 0, path: [...(spot.via ? [spot.via] : []), [spot.x, spot.z]], arrived: false, leaving: false, talking: false, act: spot.act, next: clock.elapsedTime + 3 + Math.random() * 5 };
   guests.push(g);
+  if (S.party) addHat(ch, [0xff6f61, 0x6fe0b8, 0x8fb8ff, 0xff9fb2][guests.length % 4]);
   petSay(g, pick(['Tsau!', 'Tere-tere!', 'Hei, ma olen kohal!']));
 }
 function sendGuestsHome(instant) {
@@ -1294,6 +1356,7 @@ function updateGuests(dt, t) {
   for (let i = guests.length - 1; i >= 0; i--) {
     const g = guests[i], ch = g.char, u = ch.userData;
     let target;
+    if (g.sleeping) { ch.position.set(g.sleeping.x, .25, g.sleeping.z + .85); ch.rotation.set(-Math.PI / 2, 0, 0); applyPose(ch, pose('sleep', ch, t), dt, 8); for (const e of u.eyes) e.scale.y = .12; continue; }
     if (g.path.length) {
       const [wx, wz] = g.path[0], dx = wx - ch.position.x, dz = wz - ch.position.z, d = Math.hypot(dx, dz);
       if (d < .1) {
@@ -1315,6 +1378,7 @@ function updateGuests(dt, t) {
       ch.rotation.y = lerpAngle(ch.rotation.y, g.spot.rot, 1 - Math.exp(-dt * 4));
       target = g.act === 'dance' ? pose('dance', ch, t, { i: Math.floor((t + u.ph) / 4) }) : g.act === 'sit' ? pose('sit', ch, t) : pose('talk', ch, t);
     }
+    if (u.cheerT > t && !g.path.length) target = pose('cheer', ch, t);
     applyPose(ch, target, dt, g.act === 'dance' ? 16 : 12);
     if (g.arrived && !g.talking && S.loc === 'home' && t > g.next) { g.next = t + 9 + Math.random() * 10; petSay(g, pick(GUEST_LINES[g.id])); }
     if (g.bubbleUntil && t > g.bubbleUntil) { g.bubbleUntil = 0; g.bubbleEl.hidden = true; }
@@ -1681,15 +1745,17 @@ function knock(id) {
   el.innerHTML = `<div class="bubble" hidden></div><div class="nm">${n.name}<small>Sõber</small></div>`;
   labelsEl.appendChild(el);
   host = { id, name: n.name, char: ch, el, bubbleEl: el.querySelector('.bubble'), bubbleUntil: 0, act: 'talk', talking: false, fed: false, next: clock.elapsedTime + 6 };
+  if (S.invite && S.invite.friend === id) startFriendParty(id);
   setTimeout(() => petSay(host, pick(['Tere tulemast minu juurde!', 'Oi, tore, et tulid!', 'Tule sisse, tunne end nagu kodus!'])), 400);
 }
 function updateHost(dt, t) {
   if (!host || S.loc !== 'friend') return;
   const ch = host.char, pp = player.char.position;
+  if (host.sleeping) { ch.position.set(3.6, .63, -2.05); ch.rotation.set(-Math.PI / 2, 0, 0); applyPose(ch, pose('sleep', ch, t), dt, 8); for (const e of ch.userData.eyes) e.scale.y = .12; return; }
   const want = Math.atan2(pp.x - ch.position.x, pp.z - ch.position.z);
   if (host.act !== 'dance' || host.talking) ch.rotation.y = lerpAngle(ch.rotation.y, want, 1 - Math.exp(-dt * 5));
   const target = host.act === 'dance' && !host.talking ? pose('dance', ch, t, { i: Math.floor((t + ch.userData.ph) / 4) }) : pose(host.talking ? 'talk' : 'idle', ch, t);
-  applyPose(ch, target, dt, host.act === 'dance' ? 16 : 12);
+  applyPose(ch, ch.userData.cheerT > t ? pose('cheer', ch, t) : target, dt, host.act === 'dance' ? 16 : 12);
   if (!host.talking && t > host.next) { host.next = t + 10 + Math.random() * 8; petSay(host, pick(HOST_LINES[host.id])); }
   if (host.bubbleUntil && t > host.bubbleUntil) { host.bubbleUntil = 0; host.bubbleEl.hidden = true; }
 }
@@ -1699,7 +1765,8 @@ function openHost() {
   $('#dlgPortrait').style.background = '#' + LOOKS[h.id].top.toString(16).padStart(6, '0'); $('#dlgPortrait').textContent = h.name[0];
   $('#dlgName').textContent = h.name; $('#dlgRole').textContent = 'Sõber, oled tema juures külas';
   $('#dialog').hidden = false; $('#prompt').hidden = true;
-  showNode(node(pick(HOST_LINES[h.id]), [
+  showNode(node(fparty ? 'Tore, et tulid minu sünnipäevale!' : pick(HOST_LINES[h.id]), [
+    ...(fparty && !fparty.gift ? [[S.gifts.length ? 'Palju õnne! Mul on sulle kingitus' : 'Palju õnne! (kingitust pole kaasas)', () => S.gifts.length ? giftChoiceNode(h.id, () => { fparty.gift = true; }) : node('Aitäh, et tulid! Kõige tähtsam on, et sa oled siin. Kingi saad osta Kingipoest Rõõm.', [['Palju õnne!']])]] : []),
     ['Tantsime koos!', () => { h.act = 'dance'; player.danceUntil = clock.elapsedTime + 8; return node('Jee! Pane muusika mängima!', [['Lähme!']]); }],
     ['Kas sul on midagi süüa?', () => {
       if (h.fed) return node('Võtsime juba suupisteid. Mul on nüüd kõht täis!', [['Mul ka!']]);
@@ -1707,6 +1774,7 @@ function openHost() {
       return node('Muidugi! Mul on puuviljad laual. Võta julgelt!', [['Aitäh!']]);
     }],
     ['Tule homme minu juurde külla!', () => node('Hea meelega! Helista mulle, kui oled kodus.', [['Teen nii!']])],
+    ...(fsleep ? [] : [['Kas ma tohin ööseks jääda?', () => { startFriendSleepover(); return node('Jaa, muidugi! Teeme pidžaamapeo! Su magamiskott on voodi kõrval. Kui oled väsinud, heida magama.', [['Jee!']]); }]]),
     ['Pean minema. Head aega!', () => { petSay(h, 'Head aega! Tule jälle!'); return null; }],
   ]));
 }
@@ -1722,11 +1790,34 @@ const PLACES = {
     menu: [['Kaneelisai', 3, 20, 'bun'], ['Šokolaadikook', 4, 25, 'cake'], ['Köögiviljasupp', 5, 35, 'soup'], ['Kakao', 2, 10, 'drink']] },
   varske: { kind: 'shop', x: 68, name: 'Toidupood Värske', staff: 'Maria', wall: 0xe8f6e0, accent: 0x3f8f5a,
     items: [['Banaan', 1, 'snack', 10], ['Õun', 1, 'snack', 10], ['Proteiinibatoon', 2, 'snack', 20], ['Spordijook', 2, 'snack', 15]] },
+  moe: { kind: 'fashion', x: 77, name: 'Moemaja Sära', staff: 'Kärt', wall: 0xffe3ec, accent: 0xff5d8f },
   kino: { kind: 'cinema', x: -68, name: 'Kino Täht', staff: 'Johanna', wall: 0x2b2d42, accent: 0x5b4a86 },
+  ruem: { kind: 'shop', x: -77, name: 'Kingipood Rõõm', staff: 'Kadri', wall: 0xfff0f6, accent: 0xff5d8f,
+    items: [['Kaisukaru', 6, 'gift', 'bear'], ['Lillekimp', 4, 'gift', 'flowers'], ['Kommikarp', 3, 'gift', 'candy'], ['Raamat', 5, 'gift', 'book'], ['Sõbrapael', 2, 'gift', 'bracelet'], ['Ükssarvik', 7, 'gift', 'unicorn']] },
   stiil: { kind: 'shop', x: -59, name: 'Riidepood Stiil', staff: 'Elis', wall: 0xf6e6f6, accent: 0x8f7cf7,
     items: [['Roosa särk', 8, 'top', 0xff5d8f], ['Taevasinine särk', 8, 'top', 0x8fb8ff], ['Must särk', 8, 'top', 0x26243a], ['Valge särk', 8, 'top', 0xf3efea], ['Korallivärvi nokamüts', 6, 'cap', 0xff6f61], ['Mündivärvi nokamüts', 6, 'cap', 0x6fe0b8]] },
 };
-const COLOR_NAMES = { 0xff6f61: 'korallivärvi', 0x5fd3a6: 'mündivärvi', 0x8f7cf7: 'lilla', 0xffc94a: 'kollane', 0xff5d8f: 'roosa', 0x8fb8ff: 'taevasinine', 0x26243a: 'must', 0xf3efea: 'valge' };
+const GIFT_NAMES = { bear: 'kaisukaru', flowers: 'lillekimp', candy: 'kommikarp', book: 'raamat', bracelet: 'sõbrapael', unicorn: 'ükssarvik' };
+const FAV_GIFT = { anni: 'book', grete: 'candy', hanna: 'bear', sandra: 'flowers', piret: 'unicorn' };
+const GIFT_HINTS = ['Vihje: Hanna armastab kaisukarusid.', 'Vihje: Sandrale meeldivad lilled.', 'Vihje: Anni loeb palju raamatuid.', 'Vihje: Grete on suur maiasmokk.', 'Vihje: Piret unistab ükssarvikust.'];
+function giftChoiceNode(friendId, onGiven) {
+  const kinds = [...new Set(S.gifts)];
+  return node(`Mida sa ${genName(friendId)}le kingid?`, [
+    ...kinds.map(k => [GIFT_NAMES[k][0].toUpperCase() + GIFT_NAMES[k].slice(1), () => giveGift(friendId, k, onGiven)]),
+    ['Mõtlen veel'],
+  ]);
+}
+function giveGift(friendId, kind, onGiven) {
+  S.gifts.splice(S.gifts.indexOf(kind), 1); renderHUD();
+  onGiven && onGiven();
+  const fav = FAV_GIFT[friendId] === kind, name = npcById(friendId).name;
+  const who = (host && host.id === friendId && S.loc === 'friend') ? host : guests.find(g => g.id === friendId);
+  if (who) { who.char.userData.cheerT = clock.elapsedTime + (fav ? 4 : 2); petSay(who, fav ? 'See on mu lemmik!' : 'Aitäh!'); }
+  addXP(fav ? 50 : 20); fav ? sfx.level() : sfx.good();
+  toast(fav ? `${name} hüppas rõõmust! ${GIFT_NAMES[kind][0].toUpperCase() + GIFT_NAMES[kind].slice(1)} on tema lemmik. +50 XP` : `${name} oli kingituse üle rõõmus. +20 XP`, 'gold');
+  return node(fav ? `Vau! ${GIFT_NAMES[kind][0].toUpperCase() + GIFT_NAMES[kind].slice(1)}! Kuidas sa teadsid, et just seda ma tahtsin? Aitäh, sa oled parim sõber!` : `Aitäh, väga armas ${GIFT_NAMES[kind]}! Hoian seda hoolega.`, [['Palju õnne!']]);
+}
+const COLOR_NAMES = { 0xff9f6a: 'virsikuvärvi', 0xff6f61: 'korallivärvi', 0x5fd3a6: 'mündivärvi', 0x8f7cf7: 'lilla', 0xffc94a: 'kollane', 0xff5d8f: 'roosa', 0x8fb8ff: 'taevasinine', 0x26243a: 'must', 0xf3efea: 'valge' };
 const hex = c => '#' + c.toString(16).padStart(6, '0');
 function storefront(id) {
   const P = PLACES[id], x = P.x, acc = M(P.accent, { r: .6 });
@@ -1743,7 +1834,11 @@ function storefront(id) {
     const ad = plane(1.4, .55, textTex(260, 100, '#ffc94a', [{ t: 'OTSIME', f: '800 28px Unbounded, sans-serif', c: '#2b1d2c', y: 32 }, { t: 'pitsakullerit!', f: '800 24px "Nunito Sans", sans-serif', c: '#2b1d2c', y: 70 }]));
     ad.position.set(x - 2.5, 1.9, -4.95); scene.add(ad);
   }
-  if (P.kind === 'cinema') {
+  if (P.kind === 'fashion') {
+    const rc = mesh(new THREE.PlaneGeometry(1.6, 2.6), M(0xc8203a, { r: .9 }), x, .015, -3.6, scene, false); rc.rotation.x = -Math.PI / 2;
+    for (const s of [-1, 1]) { cyl(.04, .05, .9, M(0xffc94a, { m: .6, r: .3 }), x + s * 1.0, .45, -2.6, scene, 8); sph(.07, M(0xffc94a, { m: .6, r: .3 }), x + s * 1.0, .93, -2.6); }
+    for (let i = 0; i < 14; i++) mesh(new THREE.SphereGeometry(.07, 8, 6), new THREE.MeshBasicMaterial({ color: [0xff5d8f, 0xfff0b8][i % 2] }), x - 3.2 + i * .5, 3.15, -4.92, scene, false);
+  } else if (P.kind === 'cinema') {
     ['kass', 'meri', 'jooks'].forEach((m, i) => { const pt = plane(1.0, 1.4, textTex(150, 210, ['#1b2a60', '#1f6f8f', '#2f6f3c'][i], [{ t: MOVIES[m].name.split(' ')[0].toUpperCase(), f: '800 20px Unbounded, sans-serif', c: '#ffc94a', y: 150 }])); pt.position.set(x + [-3.3, -1.9, 2.6][i], 1.6, -4.95); scene.add(pt); });
     for (let i = 0; i < 14; i++) mesh(new THREE.SphereGeometry(.07, 8, 6), new THREE.MeshBasicMaterial({ color: 0xfff0b8 }), x - 3.2 + i * .5, 3.15, -4.92, scene, false);
   } else if (P.kind === 'resto') {
@@ -1961,7 +2056,32 @@ function buildShop() {
     addCol(x, .6, 1.6, .6);
   }
   onWall(new THREE.Mesh(new THREE.PlaneGeometry(.9, 1.8), new THREE.MeshStandardMaterial({ color: 0xd8e6ee, roughness: .1, metalness: .3 })), 'back', -3.6, 1.2, .02);
-  shopGroups = { varske: gro, stiil: clo };
+  const gif = new THREE.Group(); scene.add(gif);
+  const giftCols = [0xff5d8f, 0x8fb8ff, 0xffc94a, 0x6fe0b8, 0x8f7cf7];
+  const teddy = (x, y, z, sc, parent) => {
+    const g = new THREE.Group(); g.position.set(x, y, z); g.scale.setScalar(sc); parent.add(g);
+    const fur = M(0xb8763a, { r: .9 });
+    sph(.12, fur, 0, .12, 0, g, false).scale.set(1, 1.1, .9); sph(.09, fur, 0, .3, 0, g, false);
+    for (const s of [-1, 1]) { sph(.035, fur, s * .07, .37, 0, g, false); sph(.045, fur, s * .11, .12, .04, g, false); }
+    sph(.03, M(0xf3d0b0), 0, .28, .08, g, false); sph(.012, M(0x241a18), 0, .3, .105, g, false);
+    return g;
+  };
+  for (const s of [-1, 1]) for (let k = 0; k < 4; k++) for (let i = 0; i < 9; i++) {
+    const x = s * (SHOP.hw - .4), y = .33 + k * .5, z = -2.4 + i * .65, c = giftCols[(i + k) % 5];
+    if ((i + k) % 3 === 0) teddy(x, y, z, .7, gif);
+    else if ((i + k) % 3 === 1) { box(.22, .2, .22, M(c, { r: .5 }), x, y + .1, z, gif, false); box(.23, .21, .04, M(0xffffff), x, y + .1, z, gif, false); }
+    else { cyl(.012, .012, .25, M(0x3f8f5a), x, y + .12, z, gif, 5, false); for (let f = 0; f < 4; f++) sph(.045, M(giftCols[(f + i) % 5]), x + (f % 2 - .5) * .07, y + .27, z + (f > 1 ? .04 : -.04), gif, false); }
+  }
+  for (const [x, z] of [[-1.6, .6], [1.6, .6]]) {
+    box(1.2, .6, .8, M(0xfff3e0, { r: .6 }), x, .3, z, gif);
+    teddy(x - .3, .6, z, 1.6, gif);
+    const uni = new THREE.Group(); uni.position.set(x + .3, .6, z); gif.add(uni);
+    sph(.13, C.white, 0, .15, 0, uni, false).scale.set(1.3, 1, .9); sph(.08, C.white, .14, .28, 0, uni, false);
+    const horn = mesh(new THREE.ConeGeometry(.02, .12, 8), M(0xffc94a, { m: .5, r: .3 }), .18, .4, 0, uni, false); horn.rotation.z = -.4;
+    sph(.05, M(0xff9fb2), .04, .3, 0, uni, false);
+    addCol(x, z, 1.3, .9);
+  }
+  shopGroups = { varske: gro, stiil: clo, ruem: gif };
   cashier = staff({ skin: 0xdca47c, hair: 0x6b3e26, top: 0x3f8f5a, bottom: 0x26243a, style: 'pony', tie: 0xffffff }, 0, -3.8);
 }
 function decorateShop(id) {
@@ -1976,13 +2096,14 @@ function decorateShop(id) {
 }
 function shopNode(id) {
   const P = PLACES[id];
-  return node(`Tere! Vali, mida soovid. Sul on ${S.money} €.`, [
+  return node(`Tere! Vali, mida soovid. Sul on ${S.money} €.${id === 'ruem' ? ' ' + pick(GIFT_HINTS) : ''}`, [
     ...P.items.map(([n, price, type, val]) => {
       const owned = (type === 'top' && S.tops.includes(val)) || (type === 'cap' && S.cap === val);
       return [`${n} · ${owned ? 'sul juba on' : price + ' €'}`, () => {
         if (owned) return node(type === 'top' ? 'See särk on sul juba olemas. Kodus riidekapist saad seda vahetada.' : 'See müts on juba sinu peas!', [['Ahjaa!', () => shopNode(id)]]);
         if (S.money < price) return node(`${n} maksab ${price} €, aga sul on ainult ${S.money} €. Teeni trennis raha juurde!`, [['Selge!', () => shopNode(id)]]);
         S.money -= price; sfx.good();
+        if (type === 'gift') { S.gifts.push(val); renderHUD(); return node(`${n} on ilusasti kinkepaberisse pakitud! Kingi see sõbrale tema sünnipäeval.`, [['Ostan veel', () => shopNode(id)], ['Aitäh!']]); }
         if (type === 'snack') { S.bag.push({ name: n, e: val }); renderHUD(); return node(`${n} on sinu kotis. Söö see ära, kui vajad energiat: vajuta F.`, [['Ostan veel', () => shopNode(id)], ['Aitäh, see on kõik']]); }
         if (type === 'top') { S.tops.push(val); look.top = val; player.char.userData.mats.top.color.setHex(val); player.cheerUntil = clock.elapsedTime + 1.2; renderHUD(); return node(`Sulle sobib ${COLOR_NAMES[val]} särk väga hästi! Panin selle sulle kohe selga.`, [['Ostan veel', () => shopNode(id)], ['Aitäh!']]); }
         S.cap = val; applyCap(); player.cheerUntil = clock.elapsedTime + 1.2; renderHUD();
@@ -2265,12 +2386,659 @@ function updateCinema(dt, t) {
   if (cinemaStaff.bubbleUntil && t > cinemaStaff.bubbleUntil) { cinemaStaff.bubbleUntil = 0; cinemaStaff.bubbleEl.hidden = true; }
 }
 
+// ---------------------------------------------------------------- fashion show
+const OUTFITS = [
+  { name: 'Roosa ballikleit', top: 0xff5d8f, bottom: 0xf1c6a4, dress: [0xff5d8f, 'long'] },
+  { name: 'Kuldne õhtukleit', top: 0xffc94a, bottom: 0xf1c6a4, dress: [0xffc94a, 'long'] },
+  { name: 'Taevasinine suvekleit', top: 0x8fb8ff, bottom: 0xf1c6a4, dress: [0x8fb8ff, 'short'] },
+  { name: 'Lilla printsessikleit', top: 0xb9a3e3, bottom: 0xf1c6a4, dress: [0x8f7cf7, 'long'] },
+  { name: 'Must elegantne kleit', top: 0x26243a, bottom: 0xf1c6a4, dress: [0x26243a, 'long'] },
+  { name: 'Sportlik moestiil', top: 0x6fe0b8, bottom: 0x26243a, dress: null },
+];
+const ACCESSORIES = [['Kuldne tiaara', 'tiara'], ['Päikeseprillid', 'glasses'], ['Käekott', 'bag'], ['Ilma aksessuaarita', null]];
+const FASHION = { hw: 7, hd: 7, h: 4.5 };
+const fashionScene = new THREE.Scene(); fashionScene.background = new THREE.Color(0x140e1a);
+const fashionCols = [];
+const RUN_START = -4.2, RUN_END = 2.6, RUN_Y = .5;
+const JUDGES = [['Laura', 'laura'], ['Elis', 'elis'], ['Kärt', 'kart']];
+let fashionLights = [], spot = null, audience = [], judges = [], cards = [], photogs = [], ledStrips = [];
+function setDress(ch, d) {
+  const u = ch.userData;
+  if (!d) { u.skirt.visible = false; return; }
+  u.skirt.visible = true; u.skirtMat.color.setHex(d[0]);
+  const s = d[1] === 'short' ? .55 : 1; u.skirt.scale.y = s; u.skirt.position.y = -.3 * s + .02;
+}
+function wearOutfit(i) {
+  const o = OUTFITS[i], u = player.char.userData;
+  u.mats.top.color.setHex(o.top); u.mats.bot.color.setHex(o.bottom); look.top = o.top;
+  setDress(player.char, o.dress);
+  S.outfit = i;
+}
+function wearAccessory(type) {
+  const u = player.char.userData;
+  if (player.accMesh) player.accMesh.parent.remove(player.accMesh);
+  player.accMesh = null; S.acc = type;
+  if (!type) return;
+  const g = new THREE.Group(), gold = M(0xffc94a, { m: .7, r: .25 });
+  if (type === 'tiara') {
+    const r = mesh(new THREE.TorusGeometry(.12, .012, 6, 24, Math.PI), gold, 0, .12, .02, g, false); r.rotation.x = -.3;
+    for (let i = -2; i <= 2; i++) mesh(new THREE.ConeGeometry(.018, .06 - Math.abs(i) * .01, 6), gold, i * .045, .15 + (2 - Math.abs(i)) * .006, .08 - Math.abs(i) * .015, g, false);
+    sph(.016, M(0xff5d8f, { r: .2 }), 0, .19, .08, g, false);
+    u.head.add(g);
+  } else if (type === 'glasses') {
+    const dark = M(0x18171c, { r: .2, m: .3 });
+    for (const s of [-1, 1]) box(.05, .032, .01, dark, s * .048, .012, .14, g, false);
+    box(.03, .008, .01, dark, 0, .02, .14, g, false);
+    u.head.add(g);
+  } else {
+    box(.18, .14, .06, M(0xff6f61, { r: .4 }), 0, -.12, 0, g); mesh(new THREE.TorusGeometry(.06, .008, 6, 16, Math.PI), gold, 0, -.05, 0, g, false);
+    u.lhand.add(g);
+  }
+  player.accMesh = g;
+}
+function outfitNode() {
+  return node('Tere tulemast garderoobi! Vali, mida moešõul kannad.', [
+    ...OUTFITS.map((o, i) => [o.name, () => { wearOutfit(i); player.cheerUntil = clock.elapsedTime + 1; sfx.good(); return accessoryNode(); }]),
+    ['Jään praeguste riiete juurde'],
+  ]);
+}
+function accessoryNode() {
+  return node(`${OUTFITS[S.outfit].name} sobib sulle imeliselt! Vali ka aksessuaar.`, ACCESSORIES.map(([n, type]) => [n, () => {
+    wearAccessory(type); sfx.good();
+    return node('Valmis! Mine nüüd lava taha ja astu poodiumile.', [['Lähen!']]);
+  }]));
+}
+function buildFashion() {
+  const { hw, hd, h } = FASHION;
+  const hemi = new THREE.HemisphereLight(0xfff0f6, 0x402038, .7), amb = new THREE.AmbientLight(0xffffff, .15);
+  const top = new THREE.DirectionalLight(0xfff0e0, .45); top.position.set(1, 4.4, 1.4); top.target.position.set(0, 0, 0); top.castShadow = true;
+  top.shadow.mapSize.set(1024, 1024); Object.assign(top.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: .05, far: 7 });
+  top.shadow.bias = -.0006; top.shadow.normalBias = .02;
+  scene.add(hemi, amb, top, top.target);
+  fashionLights = [[hemi, .7], [amb, .15], [top, .45]];
+  spot = new THREE.SpotLight(0xffffff, 0, 16, .28, .5, 1); spot.position.set(0, 4.3, 5); spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024);
+  scene.add(spot, spot.target);
+  const floor = mesh(new THREE.PlaneGeometry(hw * 2, hd * 2), new THREE.MeshStandardMaterial({ color: 0x2a2030, roughness: .4, metalness: .2 }), 0, 0, 0, scene, false); floor.rotation.x = -Math.PI / 2;
+  const wall = new THREE.MeshStandardMaterial({ color: 0x3a2440, roughness: .95 });
+  for (const [w, len] of [['back', hw * 2], ['front', hw * 2], ['left', hd * 2], ['right', hd * 2]]) onWall(new THREE.Mesh(new THREE.PlaneGeometry(len, h), wall), w, 0, h / 2, 0).receiveShadow = true;
+  // runway with glowing edges
+  const rw = M(0xf3efea, { r: .25, m: .1 });
+  box(1.8, RUN_Y, 7.6, rw, 0, RUN_Y / 2, -.6);
+  for (const s of [-1, 1]) { const led = mesh(new THREE.BoxGeometry(.06, .06, 7.6), new THREE.MeshBasicMaterial({ color: 0xff5d8f }), s * .93, RUN_Y - .02, -.6, scene, false); ledStrips.push(led); }
+  addCol(0, -.6, 1.9, 7.7);
+  // backstage curtain with an opening for the runway
+  const curtain = M(0xa8203a, { r: .85 });
+  for (const s of [-1, 1]) { for (let i = 0; i < 12; i++) cyl(.16, .16, h, curtain, s * (1.1 + i * .36), h / 2, -5.2, scene, 10); addCol(s * 3.15, -5.2, 4.2, .4); }
+  box(2.4, .6, .4, curtain, 0, h - .3, -5.2);
+  const title = plane(6, 1.1, textTex(800, 140, null, [{ t: 'GIRL GYM MOEŠÕU', f: '800 76px Unbounded, Arial Black, sans-serif', c: '#ffc94a', y: 76 }]), { transparent: true });
+  title.position.set(0, 3.8, -5.0); scene.add(title);
+  // backstage: clothes rack and mirror
+  const rack = group(-4.2, 0, -6.6);
+  for (const s of [-1, 1]) cyl(.025, .025, 1.7, C.steel, s * .9, .85, 0, rack, 6);
+  const bar = cyl(.02, .02, 1.9, C.steel, 0, 1.68, 0, rack, 6); bar.rotation.z = Math.PI / 2;
+  OUTFITS.forEach((o, i) => { const d = mesh(new THREE.CylinderGeometry(.06, .2, .8, 12), M(o.dress ? o.dress[0] : o.top, { r: .7 }), -.75 + i * .3, 1.22, 0, rack); });
+  addCol(-4.2, -6.6, 2.0, .5);
+  onWall(new THREE.Mesh(new THREE.PlaneGeometry(1, 1.9), new THREE.MeshStandardMaterial({ color: 0xd8e6ee, roughness: .1, metalness: .3 })), 'back', 4.2, 1.2, .02);
+  for (let i = 0; i < 10; i++) mesh(new THREE.SphereGeometry(.05, 8, 6), new THREE.MeshBasicMaterial({ color: 0xfff0b8 }), 3.7 + (i % 5) * .25, i < 5 ? 2.2 : .25, -hd + .05, scene, false);
+  // audience on both sides of the runway
+  const seatM = M(0xffc94a, { r: .6 });
+  const lookIds = ['anni', 'grete', 'hanna', 'sandra', 'piret', 'kertu', 'mia', 'lotte', 'helena'];
+  let li = 0;
+  for (const side of [-1, 1]) for (const x of [2.0, 3.2, 4.4]) for (const z of [-2.2, .2]) {
+    const sx = side * x;
+    box(.5, .45, .5, seatM, sx, .225, z); box(.06, .6, .5, seatM, sx + side * .25, .7, z);
+    addCol(sx, z, .55, .55);
+    if (li < lookIds.length && !(x === 4.4 && z === .2)) {
+      const lk = LOOKS[lookIds[li]] || LOOKS_EXTRA[lookIds[li]]; li++;
+      const a = makeGirl(lk); a.position.set(sx - side * .1, 0, z); a.rotation.y = -side * Math.PI / 2; audience.push(a);
+    }
+  }
+  // photographers at the end of the runway
+  for (const s of [-1, 1]) {
+    const p = makeGirl({ skin: 0xe8b48f, hair: 0x2b1a12, top: 0x26243a, bottom: 0x26243a, style: 'bun' });
+    p.position.set(s * 1.7, 0, 3.7); p.rotation.y = Math.PI + s * .5;
+    const cam = box(.16, .1, .08, C.black, 0, 1.47, .3, p, false);
+    const fl = new THREE.Mesh(new THREE.SphereGeometry(.05, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff })); fl.position.set(0, 1.54, .34); fl.visible = false; p.add(fl);
+    const fx = new THREE.PointLight(0xffffff, 0, 6, 2); fx.position.set(s * 1.4, 1.6, 3.2); scene.add(fx);
+    photogs.push({ ch: p, fl, fx, next: 0 });
+  }
+  // judges' table, facing the runway
+  box(3.6, .05, .8, C.white, 0, .75, 5.0); box(3.6, .7, .05, M(0xff5d8f, { r: .6 }), 0, .4, 4.62);
+  addCol(0, 5.1, 3.8, 1.2);
+  const jl = { laura: LOOKS.laura, elis: { skin: 0xdca47c, hair: 0x6b3e26, top: 0x8f7cf7, bottom: 0x26243a, style: 'pony', tie: 0xffffff }, kart: { skin: 0xf6d3b8, hair: 0x15100e, top: 0xff5d8f, bottom: 0x26243a, style: 'bob' } };
+  JUDGES.forEach(([name, id], i) => {
+    const x = -1.2 + i * 1.2;
+    box(.45, .45, .45, C.dark, x, .225, 5.65);
+    const j = makeGirl(jl[id]); j.position.set(x, 0, 5.55); j.rotation.y = Math.PI; judges.push(j);
+    const ct = canvasTex(160, 120, () => {});
+    const card = plane(.42, .32, ct, { basic: true }); card.position.set(x + .15, 2.15, 5.5); card.visible = false; scene.add(card);
+    cards.push({ card, ct, name });
+  });
+  onWall(new THREE.Mesh(new THREE.PlaneGeometry(1.3, 2.3), C.dark), 'front', -5.8, 1.15, .016);
+}
+function startShow() {
+  S.mode = 'show';
+  S.show = { phase: 'walkin', t: 0, presses: 0, points: 0, m: 0, dir: 1, zc: .5, zw: .2, cool: 0, poseUntil: 0, pose: 0, beat: 0 };
+  player.char.position.set(0, RUN_Y, RUN_START); player.rot = 0; camYaw = 0;
+  $('#prompt').hidden = true;
+  cards.forEach(c => c.card.visible = false);
+  toast('Muusika algab... astu poodiumile!', 'gold');
+}
+function showPress() {
+  const sh = S.show;
+  if (!sh || sh.phase !== 'pose' || sh.cool > 0 || sh.presses >= 3) return;
+  sh.cool = .5;
+  const d = Math.abs(sh.m - sh.zc);
+  const pts = d <= sh.zw * .14 ? 3 : d <= sh.zw / 2 ? 2 : 0;
+  sh.points += pts; sh.presses++;
+  sh.pose = sh.presses; sh.poseUntil = sh.t + 1.3;
+  setFb(pts === 3 ? 'Täiuslik poos! Publik on vaimustuses!' : pts ? 'Ilus poos!' : 'Oi, poos jäi natuke kohmakaks.', pts === 3 ? 'perfect' : pts ? 'good' : 'bad');
+  $('#miniCount').textContent = `${sh.presses}/3`;
+  pts ? sfx.perfect() : sfx.miss();
+  sh.zc = .2 + Math.random() * .6;
+}
+function updateShow(dt, t) {
+  const sh = S.show, ch = player.char, u = ch.userData;
+  sh.t += dt; sh.cool = Math.max(0, sh.cool - dt);
+  // a simple beat
+  sh.beat -= dt; if (sh.beat <= 0 && sh.phase !== 'judge') { sh.beat = .5; beep([sh.presses % 2 ? 98 : 110], .09, 'square', .025); }
+  let target;
+  if (sh.phase === 'walkin' || sh.phase === 'walkout') {
+    const goal = sh.phase === 'walkin' ? RUN_END : RUN_START, dir = Math.sign(goal - ch.position.z);
+    player.rot = lerpAngle(player.rot, dir > 0 ? 0 : Math.PI, 1 - Math.exp(-dt * 6));
+    ch.position.z += dir * 1.4 * dt; u.wph += dt * 1.4 * 2.6; u.move = 1;
+    target = pose('catwalk', ch, t);
+    if ((dir > 0 && ch.position.z >= goal) || (dir < 0 && ch.position.z <= goal)) {
+      ch.position.z = goal;
+      if (sh.phase === 'walkin') {
+        sh.phase = 'pose';
+        $('#mini').classList.add('show'); $('#mini').hidden = false;
+        $('#miniTitle').textContent = 'Poseeri!'; $('#miniSub').textContent = 'Vajuta tühikut, kui marker on rohelisel alal'; $('#miniCount').textContent = '0/3';
+        setFb('Kolm poosi, publik ootab!', '');
+        $('#repBtn').innerHTML = '<kbd>Tühik</kbd>Poseeri';
+      } else { sh.phase = 'judge'; sh.t = 0; $('#mini').hidden = true; $('#mini').classList.remove('show'); }
+    }
+  } else if (sh.phase === 'pose') {
+    u.move = 0;
+    sh.m += sh.dir * .9 * dt; if (sh.m > 1) { sh.m = 1; sh.dir = -1; } if (sh.m < 0) { sh.m = 0; sh.dir = 1; }
+    $('#marker').style.left = sh.m * 100 + '%'; $('#zone').style.left = (sh.zc - sh.zw / 2) * 100 + '%'; $('#zone').style.width = sh.zw * 100 + '%';
+    if (sh.poseUntil > sh.t) {
+      target = pose(['', 'posehips', 'posewave', 'posespin'][sh.pose], ch, t);
+      if (sh.pose === 3) player.rot = 1 - (sh.poseUntil - sh.t) / 1.3 * TAU;
+    } else { player.rot = lerpAngle(player.rot, 0, 1 - Math.exp(-dt * 8)); target = pose('idle', ch, t); }
+    if (sh.presses >= 3 && sh.poseUntil <= sh.t) { sh.phase = 'walkout'; $('#mini').hidden = true; $('#mini').classList.remove('show'); $('#repBtn').innerHTML = '<kbd>Tühik</kbd>Kordus'; }
+  } else {
+    // judges show their cards one by one
+    u.move = 0; target = pose('idle', ch, t);
+    player.rot = lerpAngle(player.rot, 0, 1 - Math.exp(-dt * 6));
+    if (!sh.scores) {
+      const outfitBonus = S.outfit != null && S.outfit !== S.lastOutfit ? 2 : 0, accBonus = S.acc ? 1 : 0, poseAvg = sh.points / 3;
+      sh.scores = JUDGES.map(() => clamp(Math.round(3 + poseAvg * 1.5 + outfitBonus + accBonus + (Math.random() * 2 - 1)), 1, 10));
+      sh.outfitBonus = outfitBonus;
+    }
+    cards.forEach((c, i) => {
+      if (sh.t > .8 + i * .9 && !c.card.visible) {
+        const g = c.ct.userData.ctx; g.fillStyle = '#fbf3ee'; g.fillRect(0, 0, 160, 120); g.fillStyle = '#2b1d2c'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '800 72px Unbounded, Arial Black, sans-serif'; g.fillText(String(sh.scores[i]), 80, 64);
+        c.ct.needsUpdate = true; c.card.visible = true; beep([520 + sh.scores[i] * 30], .12, 'sine', .05);
+      }
+    });
+    if (sh.t > 4.2 && S.mode === 'show') showFashionResults();
+  }
+  ch.position.y = RUN_Y; ch.rotation.x = 0; ch.rotation.y = player.rot;
+  applyPose(ch, target, dt, sh.phase === 'pose' ? 12 : 16);
+}
+function showFashionResults() {
+  const sh = S.show, total = sh.scores.reduce((a, b) => a + b, 0);
+  const place = total >= 27 ? 0 : total >= 22 ? 1 : total >= 16 ? 2 : 3;
+  const comments = ['Kõnnak oli enesekindel!', 'Need värvid sobivad sulle!', 'Poosid olid nagu päris modellil!', 'Väga stiilne!', 'Järgmine kord julgemalt!'];
+  $('#rType').textContent = 'Moešõu';
+  $('#rTitle').textContent = `${total}/30 punkti! ${place < 3 ? PLACE[place] : ''}`;
+  $('#rMedal').style.background = place < 3 ? MEDAL_COL[place] : 'radial-gradient(circle at 35% 30%,#fff,#cdbbc6 50%,#7a6a74)';
+  $('#rMedal').textContent = `${total}`;
+  $('#rList').innerHTML = JUDGES.map(() => '<li><span></span><b></b></li>').join('');
+  [...$('#rList').children].forEach((li, i) => { li.querySelector('span').textContent = `Žürii: ${JUDGES[i][0]} · ${sh.scores[i] >= 8 ? pick(comments.slice(0, 4)) : comments[4]}`; li.querySelector('b').textContent = `${sh.scores[i]}/10`; });
+  let prize;
+  if (place < 3) {
+    S.medals[place]++; addTrophy(place); addXP([80, 50, 30][place]); S.money += [15, 10, 5][place];
+    prize = `Said ${['kuldmedali', 'hõbemedali', 'pronksmedali'][place]}, +${[80, 50, 30][place]} XP ja ${[15, 10, 5][place]} € auhinnaraha.`;
+    sfx.level();
+  } else { addXP(10); prize = 'Seekord medalit ei tulnud. Proovi uut kleiti ja täpsemaid poose!'; }
+  if (!sh.outfitBonus) prize += ' Vihje: uus riietus garderoobist toob žüriilt lisapunkte.';
+  $('#rPrize').textContent = prize;
+  S.lastOutfit = S.outfit;
+  renderHUD();
+  S.mode = 'results'; $('#results').hidden = false;
+}
+function finishShow() {
+  S.show = null;
+  cards.forEach(c => c.card.visible = false);
+  player.char.position.set(1.8, 0, -6.2); player.rot = 0;
+}
+function updateFashion(dt, t) {
+  const on = !!S.show;
+  for (const [l, base] of fashionLights) l.intensity += (base * (on ? .35 : 1) - l.intensity) * (1 - Math.exp(-dt * 2));
+  spot.intensity += ((on ? 2.6 : 0) - spot.intensity) * (1 - Math.exp(-dt * 3));
+  spot.target.position.copy(player.char.position);
+  ledStrips.forEach((l, i) => l.material.color.setHSL(on ? ((t * .2 + i * .5) % 1) : .93, .9, .6));
+  audience.forEach((a, i) => applyPose(a, pose(on && S.show.phase !== 'judge' ? 'sitclap' : 'sit', a, t + i * .7), dt, 10));
+  judges.forEach((j, i) => applyPose(j, pose(on && cards[i].card.visible ? 'card' : 'sit', j, t + i), dt, 10));
+  photogs.forEach(p => {
+    applyPose(p.ch, pose('photo', p.ch, t), dt, 10);
+    const active = on && S.show.phase !== 'judge';
+    if (active && t > p.next) { p.next = t + .4 + Math.random() * 1.4; p.flashEnd = t + .08; }
+    const f = active && t < p.flashEnd; p.fl.visible = f; p.fx.intensity = f ? 3 : 0;
+  });
+  if (on && S.mode === 'show') updateShow(dt, t);
+}
+
+// ---------------------------------------------------------------- birthday parties at home
+const PARTY_COST = 10;
+const PARTY_LINES = ['Palju õnne!', 'Milline pidu!', 'See tort näeb nii hea välja!', 'Tantsime!', 'Parim sünnipäev üldse!'];
+const GIFTS = [
+  ['raha', 'Ümbrik rahaga: +10 €'],
+  ['top', 'Uus virsikuvärvi särk'],
+  ['cap', 'Lilla nokamüts'],
+  ['snacks', 'Kolm proteiinibatooni'],
+  ['ticket', 'Kinopilet Kino Tähte'],
+];
+let partyGroup = null, partyCake = null, candleFlames = [], discoLights = [], balloons = [];
+function addHat(ch, color) {
+  const g = new THREE.Group();
+  const hat = mesh(new THREE.ConeGeometry(.08, .2, 14), M(color, { r: .6 }), 0, .23, .01, g, false); hat.rotation.z = .12;
+  sph(.025, M(0xffffff, { r: .8 }), -.012, .34, .01, g, false);
+  ch.userData.head.add(g); ch.userData.hat = g;
+}
+function removeHat(ch) { if (ch.userData.hat) { ch.userData.head.remove(ch.userData.hat); ch.userData.hat = null; } }
+function partyNode() {
+  if (S.money < PARTY_COST) return node(`Peo jaoks on vaja tordi ja kaunistuste raha: ${PARTY_COST} €. Sul on ${S.money} €.`, [['Selge!']]);
+  const friends = FRIENDABLE.filter(id => S.friends.includes(id));
+  return node('Kelle sünnipäeva tähistame? Tort ja kaunistused maksavad kokku 10 €.', [
+    ['Minu sünnipäev!', () => { closeDialog(); openInviteSend(null); return null; }],
+    ...friends.map(id => [`Üllatuspidu: ${npcById(id).name}`, () => { closeDialog(); openInviteSend(id); return null; }]),
+    ['Mõtlen veel'],
+  ]);
+}
+function buildPartyDecor() {
+  const g = new THREE.Group(); homeScene.add(g); partyGroup = g;
+  const prev = scene; scene = homeScene;
+  const cols = [0xff6f61, 0x6fe0b8, 0xffc94a, 0x8fb8ff, 0xff9fb2, 0x8f7cf7];
+  // banner and bunting on the back wall
+  const ban = plane(3.2, .7, textTex(640, 140, null, [{ t: S.party.friend ? `PALJU ÕNNE, ${npcById(S.party.friend).name.toUpperCase()}!` : 'PALJU ÕNNE!', f: '800 56px Unbounded, Arial Black, sans-serif', c: '#ff5d8f', y: 72 }]), { transparent: true });
+  ban.position.set(1.7, 2.62, -HOME.hd + .03); g.add(ban);
+  const tri = new THREE.Shape(); tri.moveTo(-.12, 0); tri.lineTo(.12, 0); tri.lineTo(0, -.22); tri.lineTo(-.12, 0);
+  for (let i = 0; i < 18; i++) { const f = mesh(new THREE.ShapeGeometry(tri), new THREE.MeshBasicMaterial({ color: cols[i % 6], side: THREE.DoubleSide }), -1.2 + i * .34, 3.05 - .12 * Math.sin(Math.PI * i / 17), -HOME.hd + .04, g, false); }
+  // balloons
+  balloons = [];
+  for (const [x, z] of [[1.9, 4.5], [4.5, 4.5], [-.4, -4.3], [5.9, 1.4], [-5.8, 1.9], [-2.6, -4.4], [1.2, -1.2], [6.2, -.2]]) {
+    for (let k = 0; k < 3; k++) {
+      const by = 2.1 + k * .25 + rnd() * .2, bx = x + (k - 1) * .25;
+      const b = mesh(new THREE.SphereGeometry(.2, 16, 12), M(cols[(k + Math.floor(x * 3)) % 6 < 0 ? 0 : (k + Math.floor(Math.abs(x) * 3)) % 6], { r: .25 }), bx, by, z, g, false); b.scale.y = 1.2;
+      const str = cyl(.004, .004, by - .4, M(0xffffff), bx, (by - .2) / 2, z, g, 4, false);
+      balloons.push({ b, y: by, ph: rnd() * TAU });
+    }
+  }
+  // cake with candles on the coffee table
+  partyCake = new THREE.Group(); partyCake.position.set(3.2, .425, 2.0); g.add(partyCake);
+  cyl(.26, .26, .02, C.white, 0, .01, 0, partyCake, 24, false);
+  cyl(.22, .22, .16, M(0xff9fb2, { r: .6 }), 0, .1, 0, partyCake, 24); cyl(.225, .225, .03, M(0xfff3e0, { r: .6 }), 0, .19, 0, partyCake, 24);
+  for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; sph(.025, M(0xd8323c, { r: .4 }), Math.cos(a) * .18, .21, Math.sin(a) * .18, partyCake, false); }
+  candleFlames = [];
+  for (let i = 0; i < 5; i++) {
+    const a = i / 5 * TAU;
+    cyl(.012, .012, .1, M(cols[i], { r: .5 }), Math.cos(a) * .09, .26, Math.sin(a) * .09, partyCake, 6, false);
+    const fl = mesh(new THREE.ConeGeometry(.018, .05, 8), new THREE.MeshBasicMaterial({ color: 0xffc94a }), Math.cos(a) * .09, .335, Math.sin(a) * .09, partyCake, false);
+    candleFlames.push(fl);
+  }
+  // presents
+  for (let i = 0; i < 3; i++) {
+    const s = .3 + i * .06, px = 5.0 + (i % 2) * .45, pz = .7 + i * .4;
+    box(s, s, s, M(cols[i + 2], { r: .5 }), px, s / 2, pz, g);
+    box(s + .01, s + .01, .06, M(0xffffff, { r: .5 }), px, s / 2, pz, g, false); box(.06, s + .01, s + .01, M(0xffffff, { r: .5 }), px, s / 2, pz, g, false);
+  }
+  // disco lights
+  discoLights = [0xff5d8f, 0x6fe0b8, 0x8fb8ff].map(c => { const l = new THREE.PointLight(c, 0, 9, 2); g.add(l); return l; });
+  scene = prev;
+}
+function startParty(friendId, invitees) {
+  S.money -= PARTY_COST; renderHUD();
+  S.party = { friend: friendId, t: 0, cake: 'lit', gifts: friendId ? 1 : 3, arrived: !friendId, beat: 0 };
+  buildPartyDecor();
+  addHat(player.char, 0xffc94a);
+  const others = invitees || FRIENDABLE.filter(id => S.friends.includes(id) && id !== friendId).slice(0, friendId ? 3 : 4);
+  toast(friendId ? `Üllatuspidu ${genName(friendId)} jaoks! Sõbrad tulevad kohe, peida end!` : 'Sinu sünnipäevapidu algab! Külalised on teel.', 'gold');
+  sfx.quest();
+  setTimeout(() => {
+    beep([660, 520], .25, 'sine', .06);
+    others.forEach((id, i) => setTimeout(() => spawnGuest(id, GUEST_SPOTS[i]), i * 700));
+    if (friendId) setTimeout(() => {
+      toast(`${npcById(friendId).name} tuleb! Kõik vait...`, 'mint');
+      setTimeout(() => {
+        spawnGuest(friendId, GUEST_SPOTS[3]);
+        S.party.arrived = true;
+        guests.forEach(g => { g.char.userData.cheerT = clock.elapsedTime + 3; if (g.id !== friendId) petSay(g, 'ÜLLATUS!'); });
+        player.cheerUntil = clock.elapsedTime + 3;
+        const bd = guests.find(g => g.id === friendId); if (bd) petSay(bd, 'Oi! Kas see kõik on minu jaoks?!');
+        sfx.level();
+      }, 2500);
+    }, others.length * 700 + 2000);
+  }, 2000);
+}
+function playTune(notes) {
+  if (S.muted) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    let at = actx.currentTime + .05;
+    for (const [f, d] of notes) {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'triangle'; o.frequency.value = f;
+      g.gain.setValueAtTime(.0001, at); g.gain.exponentialRampToValueAtTime(.08, at + .02); g.gain.exponentialRampToValueAtTime(.0001, at + d * .95);
+      o.connect(g); g.connect(actx.destination); o.start(at); o.stop(at + d);
+      at += d;
+    }
+  } catch (e) { /* audio is optional */ }
+}
+// the traditional birthday melody (public domain)
+const BIRTHDAY_TUNE = [[392, .3], [392, .15], [440, .45], [392, .45], [523, .45], [494, .9], [392, .3], [392, .15], [440, .45], [392, .45], [587, .45], [523, .9], [392, .3], [392, .15], [784, .45], [659, .45], [523, .45], [494, .45], [440, .9], [698, .3], [698, .15], [659, .45], [523, .45], [587, .45], [523, .9]];
+function cakeAction() {
+  const p = S.party;
+  if (p.friend && !p.arrived) { toast('Oota, kuni sünnipäevalaps saabub!', ''); return; }
+  if (p.cake === 'lit') {
+    p.cake = 'singing'; p.singEnd = clock.elapsedTime + 10.5;
+    playTune(BIRTHDAY_TUNE);
+    toast('Kõik laulavad sünnipäevalaulu!', 'gold');
+    guests.forEach(g => g.char.userData.cheerT = p.singEnd);
+    player.cheerUntil = p.singEnd;
+  } else if (p.cake === 'out') {
+    p.cake = 'eaten';
+    S.energy = Math.min(100, S.energy + 30); renderHUD();
+    partyCake.children.slice(1).forEach(c => c.visible = false);
+    toast('Kõik said tüki torti. Väga maitsev! Energia +30', 'mint'); sfx.drink();
+    guests.forEach(g => petSay(g, pick(['Mmm, maasikatort!', 'Kas saab veel tüki?', 'Parim tort!'])));
+  }
+}
+function giftAction() {
+  const p = S.party;
+  if (p.friend) {
+    if (!p.arrived) { toast('Oota, kuni sünnipäevalaps saabub!', ''); return; }
+    if (S.gifts.length) { const n = npcById(p.friend); openSign(n.name, 'Sünnipäevalaps', hex(LOOKS[p.friend].top), n.name[0], giftChoiceNode(p.friend, () => { p.gifts = 0; })); return; }
+    p.gifts = 0; partyGroup.children.filter(c => c.isMesh && c.geometry.type === 'BoxGeometry').forEach(c => c.visible = false);
+    const bd = guests.find(g => g.id === p.friend); if (bd) { petSay(bd, 'Aitäh! See on täpselt see, mida ma tahtsin!'); bd.char.userData.cheerT = clock.elapsedTime + 3; }
+    addXP(30); toast(`${npcById(p.friend).name} oli kingituse üle väga rõõmus! +30 XP`, 'gold'); sfx.level();
+    return;
+  }
+  const giver = guests.length ? pick(guests).name : 'Miisu';
+  const [type, label] = GIFTS[(3 - p.gifts + Math.floor(Math.random() * 2)) % GIFTS.length];
+  if (type === 'raha') S.money += 10;
+  if (type === 'top') { if (!S.tops.includes(0xff9f6a)) S.tops.push(0xff9f6a); look.top = 0xff9f6a; player.char.userData.mats.top.color.setHex(0xff9f6a); }
+  if (type === 'cap') { S.cap = 0x8f7cf7; applyCap(); }
+  if (type === 'snacks') for (let i = 0; i < 3; i++) S.bag.push({ name: 'Proteiinibatoon', e: 20 });
+  if (type === 'ticket') S.ticket = pick(Object.keys(MOVIES));
+  p.gifts--;
+  const boxes = partyGroup.children.filter(c => c.isMesh && c.geometry.type === 'BoxGeometry' && c.visible);
+  boxes.slice(0, 3).forEach(c => c.visible = false);
+  renderHUD(); player.cheerUntil = clock.elapsedTime + 1.5; sfx.perfect();
+  toast(`${giver} kingitus: ${label}!`, 'gold');
+}
+function partyPhoneNode() {
+  return node(S.party.friend ? `Üllatuspidu ${genName(S.party.friend)} jaoks käib täies hoos!` : 'Sinu sünnipäevapidu käib täies hoos!', [
+    ...(S.sleepover ? [] : [['Jääge ööseks! (pidžaamapidu)', () => { startHomeSleepover(); return null; }]]),
+    ['Kõik tantsima!', () => { guests.forEach(g => { if (g.arrived) { if (g.act === 'sit') { g.spot = { x: 1.0 + Math.random() * 1.5, z: .6 + Math.random() * 1.0, rot: .4, act: 'dance' }; g.path = [[g.spot.x, g.spot.z]]; g.arrived = false; } g.act = 'dance'; } }); player.danceUntil = clock.elapsedTime + 10; return null; }],
+    ['Lõpeta pidu', () => { endParty(false); return null; }],
+    ['Pidutseme edasi!'],
+  ]);
+}
+function endParty(instant) {
+  if (!S.party) return;
+  S.party = null;
+  if (partyGroup) { homeScene.remove(partyGroup); partyGroup = null; }
+  removeHat(player.char);
+  if (guests.length && !S.sleepover) sendGuestsHome(instant);
+  if (!instant) toast('Pidu on läbi. Aitäh, see oli vahva!', 'mint');
+}
+function updateParty(dt, t) {
+  const p = S.party;
+  p.t += dt;
+  balloons.forEach(b => b.b.position.y = b.y + .06 * Math.sin(t * 1.5 + b.ph));
+  discoLights.forEach((l, i) => { const a = t * 1.2 + i * TAU / 3; l.position.set(1.5 + Math.cos(a) * 3, 2.6, Math.sin(a) * 2.5); l.intensity = S.loc === 'home' ? .9 : 0; });
+  if (p.cake === 'lit' || p.cake === 'singing') candleFlames.forEach((f, i) => { f.visible = true; f.scale.y = 1 + .3 * Math.sin(t * 15 + i); });
+  if (p.cake === 'singing' && t > p.singEnd) {
+    p.cake = 'out'; candleFlames.forEach(f => f.visible = false);
+    toast(p.friend ? `${npcById(p.friend).name} puhus küünlad ära ja soovis midagi salajast!` : 'Puhusid küünlad ära ja soovisid midagi salajast! Palju õnne!', 'gold');
+    sfx.level();
+  }
+  // party beat
+  p.beat -= dt; if (p.beat <= 0 && S.loc === 'home' && p.cake !== 'singing') { p.beat = .45; beep([Math.floor(p.t / .45) % 4 === 0 ? 98 : 147], .07, 'square', .02); }
+  if (S.loc === 'home' && Math.random() < dt * .25 && guests.length) { const g = pick(guests); if (g.arrived && !g.talking) petSay(g, pick(PARTY_LINES)); }
+  const cs = STATIONS.find(s => s.id === 'cake'), gs = STATIONS.find(s => s.id === 'gifts');
+  cs.verb = p.cake === 'lit' ? (p.friend ? 'Too tort ja laulame' : 'Laulame ja puhu küünlad') : p.cake === 'out' ? 'Lõika tort' : 'Tort on söödud';
+  gs.verb = p.gifts > 0 ? (p.friend ? 'Anna kingitus üle' : 'Ava kingitus') : 'Kingitused on avatud';
+}
+
+// ---------------------------------------------------------------- invitations
+const inv = { mode: null, friend: null, picked: [] };
+function openInviteSend(friendId) {
+  const pool = FRIENDABLE.filter(id => S.friends.includes(id) && id !== friendId);
+  const max = friendId ? 3 : 4;
+  Object.assign(inv, { mode: 'send', friend: friendId, picked: pool.slice(0, max), pool, max });
+  $('#invEyebrow').textContent = friendId ? 'Salajane kutse' : 'Kutse';
+  $('#invTitle').textContent = friendId ? `Üllatuspidu ${genName(friendId)} jaoks` : 'Minu sünnipäevapidu';
+  $('#invText').textContent = friendId
+    ? `Psst! Kutsu sõbrad salaja külla. ${npcById(friendId).name} ei tohi midagi teada saada! Kus: minu kodu. Millal: kohe.`
+    : 'Tule minu sünnipäevale! Kus: minu kodu. Millal: kohe. Tort, muusika ja tants on olemas!';
+  $('#invOk').textContent = 'Saada kutsed';
+  $('#invLater').hidden = true;
+  $('#invNo').textContent = 'Tühista';
+  renderInviteGuests();
+  S.mode = 'invite'; $('#invite').hidden = false;
+}
+function renderInviteGuests() {
+  const el = $('#invGuests'); el.innerHTML = '';
+  if (inv.mode !== 'send') return;
+  if (!inv.pool.length) { el.innerHTML = '<span class="inv-empty">Rohkem sõpru pole veel. Räägi jõusaalis ja pargis inimestega!</span>'; return; }
+  const lab = document.createElement('span'); lab.className = 'inv-label'; lab.textContent = `Kellele kutse saata? (kuni ${inv.max})`; el.appendChild(lab);
+  for (const id of inv.pool) {
+    const b = document.createElement('button'); const on = inv.picked.includes(id);
+    b.className = 'inv-guest' + (on ? ' on' : ''); b.setAttribute('aria-pressed', on);
+    b.innerHTML = `<i style="background:${hex(LOOKS[id].top)}"></i><span></span>`; b.querySelector('span').textContent = npcById(id).name;
+    b.onclick = () => {
+      if (inv.picked.includes(id)) inv.picked = inv.picked.filter(x => x !== id);
+      else if (inv.picked.length < inv.max) inv.picked.push(id);
+      renderInviteGuests();
+    };
+    el.appendChild(b);
+  }
+}
+function openInviteReceive(id) {
+  if (S.mode !== 'play') { setTimeout(() => openInviteReceive(id), 2000); return; }
+  Object.assign(inv, { mode: 'receive', friend: id });
+  const n = npcById(id).name;
+  $('#invEyebrow').textContent = 'Sulle tuli kutse';
+  $('#invTitle').textContent = `${n} kutsub sind sünnipäevale!`;
+  $('#invText').textContent = `Tule täna minu juurde peole! Kus: ${genName(id)} kodu tänava ääres. Kaasa võta hea tuju! Sinu ${n}`;
+  $('#invOk').textContent = 'Võtan kutse vastu';
+  $('#invNo').textContent = 'Seekord ei saa';
+  $('#invLater').hidden = false;
+  renderInviteGuests();
+  S.mode = 'invite'; $('#invite').hidden = false; sfx.quest();
+}
+function inviteLater() {
+  $('#invite').hidden = true; S.mode = 'play';
+  toast('Kiri jäi postkasti. Saad selle hiljem uuesti avada.', 'mint');
+}
+function openMailbox() {
+  if (!S.mail.length) { toast('Postkast on tühi. Kui sõber sind peole kutsub, tuleb kiri hommikul siia.', ''); return; }
+  openInviteReceive(S.mail[0].friend);
+}
+function inviteOk() {
+  if (inv.mode === 'receive') S.mail = S.mail.filter(m => m.friend !== inv.friend);
+  $('#invite').hidden = true; S.mode = 'play';
+  if (inv.mode === 'send') {
+    const ids = inv.picked.slice();
+    ids.forEach((id, i) => setTimeout(() => toast(`${npcById(id).name}: ${pick(['Jaa, tulen kindlasti!', 'Juba tulen!', 'Vau, ma ei jõua ära oodata!'])}`, 'mint'), 400 + i * 500));
+    startParty(inv.friend, ids);
+  } else {
+    S.invite = { friend: inv.friend };
+    toast(`Mine ${genName(inv.friend)} koju! Tema maja on tänava ääres.`, 'gold');
+  }
+}
+function inviteNo() {
+  if (inv.mode === 'receive') S.mail = S.mail.filter(m => m.friend !== inv.friend);
+  renderHUD();
+  $('#invite').hidden = true; S.mode = 'play';
+  if (inv.mode === 'receive') toast(`Ütlesid ${genName(inv.friend)}le, et seekord ei saa tulla.`, '');
+}
+$('#invOk').onclick = inviteOk;
+$('#invNo').onclick = inviteNo;
+$('#invLater').onclick = inviteLater;
+// friends sometimes invite you to their birthday when a new day starts
+let mailFlag = null, mailEnv = null;
+function maybeInvite() {
+  if (!S.friends.length || S.invite || S.mail.length) return;
+  if (S.gotInvite && Math.random() > .5) return;
+  S.gotInvite = true;
+  S.mail.push({ friend: pick(S.friends) });
+  renderHUD();
+  setTimeout(() => toast('Postkasti tuli kiri! Postkast on sinu maja ees, tänava ääres.', 'gold'), 1500);
+}
+
+// a birthday party at a friend's home
+let fparty = null;
+function startFriendParty(id) {
+  const prev = scene; scene = friendScene;
+  const g = new THREE.Group(); friendScene.add(g);
+  const cols = [0xff6f61, 0x6fe0b8, 0xffc94a, 0x8fb8ff, 0xff9fb2, 0x8f7cf7];
+  const ban = plane(3.0, .55, textTex(640, 120, null, [{ t: `PALJU ÕNNE, ${npcById(id).name.toUpperCase()}!`, f: '800 52px Unbounded, Arial Black, sans-serif', c: '#ff5d8f', y: 62 }]), { transparent: true });
+  ban.position.set(1.4, 2.6, -FRIEND.hd + .03); g.add(ban);
+  const bl = [];
+  for (const [x, z] of [[-4.4, -3.4], [4.4, 3.2], [-4.4, 3.2], [2.2, -3.6]]) for (let k = 0; k < 3; k++) {
+    const by = 1.9 + k * .22, b = mesh(new THREE.SphereGeometry(.18, 14, 10), M(cols[(k + bl.length) % 6], { r: .25 }), x + (k - 1) * .22, by, z, g, false); b.scale.y = 1.2;
+    cyl(.004, .004, by - .4, M(0xffffff), x + (k - 1) * .22, (by - .2) / 2, z, g, 4, false); bl.push({ b, y: by, ph: rnd() * TAU });
+  }
+  const cake = new THREE.Group(); cake.position.set(-2.2, .405, -1.4); g.add(cake);
+  cyl(.2, .2, .14, M(0x8fb8ff, { r: .6 }), 0, .07, 0, cake, 24); cyl(.205, .205, .025, M(0xfff3e0, { r: .6 }), 0, .15, 0, cake, 24);
+  const flames = [];
+  for (let i = 0; i < 4; i++) { const a = i / 4 * TAU; cyl(.012, .012, .09, M(cols[i]), Math.cos(a) * .08, .2, Math.sin(a) * .08, cake, 6, false); flames.push(mesh(new THREE.ConeGeometry(.017, .045, 8), new THREE.MeshBasicMaterial({ color: 0xffc94a }), Math.cos(a) * .08, .27, Math.sin(a) * .08, cake, false)); }
+  // two other friends are already partying
+  const extraIds = FRIENDABLE.filter(x => x !== id).slice(0, 2);
+  const extras = extraIds.map((eid, i) => { const ch = makeGirl(LOOKS[eid]); ch.position.set([1.4, -.6][i], 0, [.4, .9][i]); ch.rotation.y = [-.6, .5][i]; addHat(ch, cols[i + 3]); return ch; });
+  scene = prev;
+  if (host) addHat(host.char, 0xff5d8f);
+  addHat(player.char, 0xffc94a);
+  fparty = { id, g, bl, cake, flames, extras, state: 'lit', gift: false, beat: 0, t: 0 };
+  setTimeout(() => toast(`Pidu ${genName(id)} juures! Anna sünnipäevalapsele kingitus ja laulge koos tordi juures.`, 'gold'), 600);
+}
+function friendCakeAction() {
+  const f = fparty;
+  if (f.state === 'lit') {
+    f.state = 'singing'; f.singEnd = clock.elapsedTime + 10.5; playTune(BIRTHDAY_TUNE);
+    toast('Kõik laulavad sünnipäevalaulu!', 'gold'); player.cheerUntil = f.singEnd;
+  } else if (f.state === 'out') {
+    f.state = 'eaten'; f.cake.visible = false;
+    S.energy = Math.min(100, S.energy + 25); renderHUD(); sfx.drink();
+    toast('Tort oli imehea! Energia +25', 'mint');
+  }
+}
+function endFriendParty() {
+  if (!fparty) return;
+  friendScene.remove(fparty.g);
+  fparty.extras.forEach(c => friendScene.remove(c));
+  if (host) removeHat(host.char);
+  removeHat(player.char);
+  toast(`Aitäh peo eest, ${npcById(fparty.id).name}!`, 'mint');
+  fparty = null; S.invite = null;
+}
+function updateFriendParty(dt, t) {
+  const f = fparty;
+  f.t += dt;
+  f.bl.forEach(b => b.b.position.y = b.y + .05 * Math.sin(t * 1.5 + b.ph));
+  if (f.state === 'lit' || f.state === 'singing') f.flames.forEach((fl, i) => fl.scale.y = 1 + .3 * Math.sin(t * 15 + i));
+  if (f.state === 'singing' && t > f.singEnd) {
+    f.state = 'out'; f.flames.forEach(fl => fl.visible = false);
+    if (host) { petSay(host, 'Ma soovisin midagi salajast!'); host.char.userData.cheerT = t + 2; }
+    toast(`${npcById(f.id).name} puhus küünlad ära!`, 'gold'); sfx.level();
+  }
+  f.extras.forEach((c, i) => applyPose(c, f.state === 'singing' ? pose('cheer', c, t + i) : pose('dance', c, t, { i: Math.floor((t + i * 2) / 4) }), dt, 16));
+  if (host && !host.talking && host.act !== 'dance') host.act = 'dance';
+  f.beat -= dt; if (f.beat <= 0 && f.state !== 'singing') { f.beat = .45; beep([Math.floor(f.t / .45) % 4 === 0 ? 98 : 147], .07, 'square', .02); }
+  const st = STATIONS.find(s => s.id === 'friendCake');
+  st.verb = f.state === 'lit' ? 'Laulame sünnipäevalaulu' : f.state === 'out' ? 'Lõika tort' : 'Tort on söödud';
+}
+
+// ---------------------------------------------------------------- sleepovers
+function sleepingBag(x, z, color, parent) {
+  const g = new THREE.Group(); g.position.set(x, 0, z); parent.add(g);
+  box(.8, .12, 1.9, M(color, { r: .8 }), 0, .06, 0, g);
+  box(.82, .13, .8, M(new THREE.Color(color).multiplyScalar(.85).getHex(), { r: .8 }), 0, .075, .5, g, false);
+  box(.5, .1, .3, C.white, 0, .17, -.75, g, false);
+  return g;
+}
+// staying the night at a friend's home
+let fsleep = null;
+const FRIEND_BAG = { x: 1.6, z: -.6 };
+function startFriendSleepover() {
+  if (fsleep) return;
+  const lights = friendScene.children.filter(o => o.isLight).map(l => [l, l.intensity]);
+  lights.forEach(([l, b]) => l.intensity = b * .35);
+  const bag = sleepingBag(FRIEND_BAG.x, FRIEND_BAG.z, 0x8f7cf7, friendScene);
+  const lamp = new THREE.PointLight(0xffc27a, .8, 5, 2); lamp.position.set(2.6, .9, -.4); friendScene.add(lamp);
+  fsleep = { lights, bag, lamp };
+  toast('Pidžaamapidu! Magamiskott on voodi kõrval. Kui oled väsinud, heida magama.', 'gold');
+}
+function endFriendSleepover() {
+  if (!fsleep) return;
+  fsleep.lights.forEach(([l, b]) => l.intensity = b);
+  friendScene.remove(fsleep.bag); friendScene.remove(fsleep.lamp);
+  if (host) { host.sleeping = false; host.char.rotation.set(0, Math.PI, 0); host.char.position.set(.6, 0, 1.4); }
+  fsleep = null;
+}
+function friendSleep() {
+  if (S.party) endParty(true);
+  S.mode = 'sleep'; sleepT = 0;
+  setProps(player.char, null);
+  player.char.position.set(FRIEND_BAG.x, .25, FRIEND_BAG.z + .85);
+  player.char.rotation.set(-Math.PI / 2, 0, 0);
+  if (host) host.sleeping = true;
+  $('#prompt').hidden = true;
+  $('#fade').className = 'dim'; $('#fadeTxt').textContent = 'Zzz...';
+}
+// friends staying the night at your home
+let homeBags = null;
+const HOME_BAGS = [[-1.8, -.8], [-.6, -.8], [.6, -.8], [1.8, -.8]];
+const BAG_COLS = [0xff9fb2, 0x6fe0b8, 0xffc94a, 0x8fb8ff];
+function startHomeSleepover() {
+  S.sleepover = true;
+  guests.forEach(g => petSay(g, pick(['Jee, pidžaamapidu!', 'Ma võtsin oma padja kaasa!', 'Räägime terve öö juttu!'])));
+  toast('Sõbrad jäävad ööseks! Kui oled väsinud, mine voodisse. Sõbrad magavad magamiskottides.', 'gold');
+}
+function layGuestsDown() {
+  homeBags = new THREE.Group(); homeScene.add(homeBags);
+  guests.forEach((g, i) => {
+    const [x, z] = HOME_BAGS[i % HOME_BAGS.length];
+    sleepingBag(x, z, BAG_COLS[i % 4], homeBags);
+    g.sleeping = { x, z }; g.path = []; g.talking = false; g.bubbleUntil = 0; g.bubbleEl.hidden = true;
+  });
+}
+function wakeGuests() {
+  if (homeBags) { homeScene.remove(homeBags); homeBags = null; }
+  guests.forEach(g => {
+    if (!g.sleeping) return;
+    const { x, z } = g.sleeping; g.sleeping = null;
+    g.char.rotation.set(0, Math.PI / 2, 0); g.char.position.set(x + .55, 0, z);
+    g.spot = { x: x + .55, z, rot: Math.PI / 2, act: 'talk' }; g.act = 'talk'; g.arrived = true;
+    petSay(g, pick(['Tere hommikust!', 'Ma magasin nii hästi!', 'Kas hommikusöök on valmis?']));
+  });
+  S.sleepover = false;
+  setTimeout(() => toast('Hommikusöök sõpradega: pannkoogid moosiga! Väga mõnus öö oli.', 'gold'), 1200);
+  setTimeout(() => { if (guests.length && S.loc === 'home') { sendGuestsHome(false); toast('Sõbrad läksid koju. Aitäh vahva pidžaamapeo eest!', 'mint'); } }, 9000);
+}
+
 // ---------------------------------------------------------------- travel and sleep
 const SPAWN = { home: { x: -1, z: 3.85 }, gym: { x: 6, z: 9.2 }, beach: { x: -20.6, z: 11 }, hills: { x: -18.6, z: 13.6 } };
 function flash() { const f = $('#fade'); f.className = ''; void f.offsetWidth; f.className = 'flash'; $('#fadeTxt').textContent = ''; }
 function travel(to, opts = {}) {
   const from = S.loc;
   if (from === 'resto' && to !== 'resto') leaveResto();
+  if (from === 'friend' && to !== 'friend') { endFriendParty(); endFriendSleepover(); }
   const P = {
     gym: { scene: gymScene, cols: gymCols, room: { hw: HW, hd: HD } },
     home: { scene: homeScene, cols: homeCols, room: HOME },
@@ -2281,6 +3049,7 @@ function travel(to, opts = {}) {
     resto: { scene: restoScene, cols: restoCols, room: RESTO },
     shop: { scene: shopScene, cols: shopCols, room: SHOP },
     cinema: { scene: cinemaScene, cols: cinemaCols, room: CINEMA },
+    fashion: { scene: fashionScene, cols: fashionCols, room: FASHION },
   }[to];
   if (!opts.bus) flash();
   scene.remove(player.char);
@@ -2289,10 +3058,11 @@ function travel(to, opts = {}) {
   scene.add(player.char);
   // outside you come out of whichever door you used, or off the bus
   let p = SPAWN[to], rot = Math.PI;
-  if (to === 'out') { p = opts.bus ? { x: -4, z: .3 } : { x: from === 'home' ? 15 : from === 'friend' ? FRIEND_HOUSES[S.visiting].x : (from === 'resto' || from === 'shop' || from === 'cinema') ? PLACES[S.place].x : -15, z: -3.4 }; rot = 0; }
+  if (to === 'out') { p = opts.bus ? { x: -4, z: .3 } : { x: from === 'home' ? 15 : from === 'friend' ? FRIEND_HOUSES[S.visiting].x : (from === 'resto' || from === 'shop' || from === 'cinema' || from === 'fashion') ? PLACES[S.place].x : -15, z: -3.4 }; rot = 0; }
   if (to === 'friend') { p = { x: 0, z: 3.3 }; }
   if (to === 'resto' || to === 'shop') { p = { x: 0, z: 3.7 }; }
   if (to === 'cinema') { p = { x: 0, z: 5.2 }; }
+  if (to === 'fashion') { p = { x: -5.8, z: 6.0 }; }
   player.char.position.set(p.x, 0, p.z); player.char.rotation.x = 0; player.rot = rot;
   camYaw = 0; camTarget.set(p.x, 1.1, p.z); camPos.set(p.x, 1.1 + camH, p.z + camDist);
   sfx.drink();
@@ -2302,6 +3072,7 @@ function travel(to, opts = {}) {
   }
   else if (to === 'home' && !S.beenHome) { S.beenHome = true; setTimeout(() => toast('Tere tulemast koju! Voodis saad magada ja laua peal on telefon, et sõpru külla kutsuda.', 'gold'), 500); }
   else if (to === 'out' && !S.beenOut) { S.beenOut = true; setTimeout(() => toast('Oled õues! Tänava ääres on jõusaal, sinu kodu ja sõprade majad. Keskel on park ja bussipeatus.', 'gold'), 500); }
+  else if (to === 'fashion') toast('Moemaja Sära: garderoob ja lava on taga, eesriide taga!', 'gold');
   else if (to === 'resto' || to === 'shop' || to === 'cinema') toast(`${PLACES[S.place].name}: tere tulemast!`, 'mint');
   else if (to === 'friend') toast(`Oled ${genName(S.visiting)} juures külas.`, 'mint');
   else if (!opts.quiet) toast({ home: 'Oled kodus.', gym: 'Tagasi jõusaalis!', out: 'Oled õues.', beach: 'Oled Pärnu rannas.', hills: 'Oled Otepääl.' }[to], 'mint');
@@ -2463,7 +3234,9 @@ function openSign(title, role, color, letter, nd) {
 }
 let sleepT = 0;
 function goSleep() {
-  if (guests.length) { sendGuestsHome(true); toast('Sõbrad läksid koju. Head ööd!', 'mint'); }
+  if (S.party) endParty(true);
+  if (S.sleepover && guests.length) layGuestsDown();
+  else if (guests.length) { sendGuestsHome(true); toast('Sõbrad läksid koju. Head ööd!', 'mint'); }
   S.mode = 'sleep'; sleepT = 0;
   setProps(player.char, null);
   player.char.position.set(BED.x, .68, BED.z + .82);
@@ -2481,12 +3254,21 @@ function wake() {
   S.day++; S.energy = 100; S.money += 5;
   const rested = S.trained; S.trained = false;
   if (rested) { addStat('str', 1); addStat('end', 1); addStat('flex', 1); }
-  bedCover.visible = false;
   player.char.rotation.set(0, 0, 0);
-  player.char.position.set(-3.05, 0, -2.4); player.rot = Math.PI / 2;
+  if (S.loc === 'friend') {
+    player.char.position.set(FRIEND_BAG.x + .8, 0, FRIEND_BAG.z); player.rot = -Math.PI / 2;
+    const n = host ? host.name : 'Sõber';
+    endFriendSleepover();
+    setTimeout(() => toast(`${n} tegi hommikusöögiks pannkooke. Aitäh, et lasid ööseks jääda!`, 'gold'), 1200);
+  } else {
+    bedCover.visible = false;
+    player.char.position.set(-3.05, 0, -2.4); player.rot = Math.PI / 2;
+    if (homeBags) wakeGuests();
+  }
   S.mode = 'play'; $('#fade').className = ''; $('#fadeTxt').textContent = '';
   toast(rested ? `Tere hommikust! Päev ${S.day}. Lihased kasvasid öösel: kõik näitajad +1. Taskuraha +5 €.` : `Tere hommikust! Päev ${S.day}. Energia on täis. Taskuraha +5 €.`, 'gold');
   renderHUD(); sfx.level();
+  maybeInvite();
 }
 
 // ---------------------------------------------------------------- characters
@@ -2497,6 +3279,8 @@ function makeGirl(o) {
   const m = { skin: M(o.skin, { r: .62 }), hair: M(o.hair, { r: .7 }), top: M(o.top, { r: .6 }), bot: M(o.bottom, { r: .72 }), shoe: M(o.shoes ?? 0xf3efea, { r: .5 }), sole: M(0xffffff, { r: .6 }), eye: M(0x2a1a22, { r: .3 }), lip: M(0xc4646f, { r: .5 }), blush: M(0xf0b0a8, { r: .9 }) };
   const hips = new THREE.Group(); hips.position.y = .93; body.add(hips);
   cyl(.155, .165, .2, m.bot, 0, 0, 0, hips, 14);
+  const skirtMat = new THREE.MeshStandardMaterial({ color: o.top, roughness: .6, side: THREE.DoubleSide });
+  const skirt = mesh(new THREE.CylinderGeometry(.168, .42, .62, 22, 1, true), skirtMat, 0, -.28, 0, hips); skirt.visible = false;
   const torso = new THREE.Group(); torso.position.y = .08; hips.add(torso);
   cyl(.135, .15, .17, o.crop ? m.skin : m.top, 0, .08, 0, torso, 14);
   const chest = cyl(.17, .14, .3, m.top, 0, .3, 0, torso, 14); chest.scale.z = .8;
@@ -2569,7 +3353,7 @@ function makeGirl(o) {
   // contact shadow so characters sit on the floor even in dim corners
   const blob = new THREE.Mesh(new THREE.CircleGeometry(.32, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: .18, depthWrite: false }));
   blob.rotation.x = -Math.PI / 2; blob.position.y = .008; root.add(blob);
-  root.userData = { mats: m, lhand: L.hand, rhand: R.hand, body, hips, torso, head, ls: L.sh, rs: R.sh, le: L.el, re: R.el, lh: LL.hp, rh: RL.hp, lk: LL.kn, rk: RL.kn, pony, props, cur: P0(), wph: 0, ph: rnd() * 6, move: 0, look: o, eyes };
+  root.userData = { mats: m, skirt, skirtMat, lhand: L.hand, rhand: R.hand, body, hips, torso, head, ls: L.sh, rs: R.sh, le: L.el, re: R.el, lh: LL.hp, rh: RL.hp, lk: LL.kn, rk: RL.kn, pony, props, cur: P0(), wph: 0, ph: rnd() * 6, move: 0, look: o, eyes };
   root.traverse(c => { if (c.isMesh && c !== blob) c.castShadow = true; });
   scene.add(root);
   return root;
@@ -2667,6 +3451,17 @@ function pose(mode, ch, t, a = {}) {
       q.rsx = -1.0 - .4 * e; q.rex = -1.4 - .9 * e; q.rsz = -.1; q.hx = .12;
       return q;
     }
+    case 'catwalk': {
+      const q = pose('walk', ch, t);
+      q.tz = .08 * Math.sin(u.wph); q.lhz = .02; q.rhz = -.02; q.lsx *= .5; q.rsx *= .5; q.lsz = .18; q.rsz = -.18; q.hdy = 0;
+      return q;
+    }
+    case 'posehips': p.lsz = .75; p.lex = -2.1; p.lsx = .25; p.rsz = -.75; p.rex = -2.1; p.rsx = .25; p.lhz = .15; p.tz = .12; p.hdy = .3; break;
+    case 'posewave': p.rsz = -2.7 + .2 * Math.sin(t * 8); p.rex = -.3; p.lsz = .75; p.lex = -2.1; p.lsx = .25; p.hdy = -.2; break;
+    case 'posespin': p.lsz = 1.4; p.rsz = -1.4; p.lex = p.rex = -.2; break;
+    case 'sitclap': { const q = pose('sit', ch, t), c = Math.abs(Math.sin(t * 6)); q.lsx = q.rsx = -1.1; q.lsz = -.2 + .3 * c; q.rsz = .2 - .3 * c; q.lex = q.rex = -.8; return q; }
+    case 'card': { const q = pose('sit', ch, t); q.rsx = -2.6; q.rex = -.3; q.rsz = -.2; return q; }
+    case 'photo': p.lsx = p.rsx = -1.35; p.lex = p.rex = -1.9; p.lsz = -.15; p.rsz = .15; p.hx = .1; break;
     case 'holdbox': {
       const q = pose('idle', ch, t);
       q.lsx = q.rsx = -1.1; q.lex = q.rex = -.6; q.lsz = .12; q.rsz = -.12;
@@ -2755,7 +3550,7 @@ function applyPose(ch, target, dt, k = 14) {
 }
 
 // ---------------------------------------------------------------- game state
-const S = { mode: 'start', lvl: 1, xp: 0, energy: 100, str: 10, end: 10, flex: 10, reps: 0, hasBottle: false, metEliise: false, medal: false, drinks: 0, muted: false, day: 1, loc: 'gym', trained: false, snacks: 0, beenHome: false, beenOut: false, friends: [], ice: 0, visited: [], medals: [0, 0, 0], towerDone: false, money: 15, bag: [], tops: [0xff6f61, 0x5fd3a6, 0x8f7cf7, 0xffc94a], cap: null, order: null, place: null, job: null, ticket: null, popcorn: false, movie: null };
+const S = { mode: 'start', lvl: 1, xp: 0, energy: 100, str: 10, end: 10, flex: 10, reps: 0, hasBottle: false, metEliise: false, medal: false, drinks: 0, muted: false, day: 1, loc: 'gym', trained: false, snacks: 0, beenHome: false, beenOut: false, friends: [], ice: 0, visited: [], medals: [0, 0, 0], towerDone: false, money: 15, bag: [], tops: [0xff6f61, 0x5fd3a6, 0x8f7cf7, 0xffc94a], cap: null, order: null, place: null, job: null, ticket: null, popcorn: false, movie: null, show: null, outfit: null, lastOutfit: null, acc: null, party: null, invite: null, gotInvite: false, mail: [], gifts: [], sleepover: false };
 const STAT_NAMES = { str: 'Jõud', end: 'Vastupidavus', flex: 'Painduvus' };
 const quests = {
   kerli1: { giver: 'kerli', title: 'Kükid kangiga', desc: 'Tee kükiraamis 8 kükki.', station: 'squat', target: 8 },
@@ -2811,11 +3606,19 @@ const STATIONS = [
 ];
 const ICE = ['Maasikajäätis', 'Vaniljejäätis', 'Mustikajäätis', 'Šokolaadijäätis'];
 for (const id in FRIEND_HOUSES) STATIONS.push({ id: 'house_' + id, loc: 'out', name: 'Sõbra kodu', ax: FRIEND_HOUSES[id].x, az: -3.9, special: 'visit', friend: id, verb: 'Mine külla' });
-for (const id in PLACES) STATIONS.push({ id: 'place_' + id, loc: 'out', name: PLACES[id].name, ax: PLACES[id].x, az: -3.9, special: 'enter', place: id, verb: { resto: 'Mine sööma', shop: 'Mine poodi', cinema: 'Mine kinno' }[PLACES[id].kind] });
+for (const id in PLACES) STATIONS.push({ id: 'place_' + id, loc: 'out', name: PLACES[id].name, ax: PLACES[id].x, az: -3.9, special: 'enter', place: id, verb: { resto: 'Mine sööma', shop: 'Mine poodi', cinema: 'Mine kinno', fashion: 'Mine moešõule' }[PLACES[id].kind] });
 TABLES.forEach(([tx, tz], i) => STATIONS.push({ id: 'seat' + i, loc: 'resto', name: 'Laud', ax: tx, az: tz + 1.6, ux: tx, uz: tz + .7, ur: Math.PI, special: 'sit', table: i, verb: 'Istu lauda' }));
 STATIONS.push({ id: 'counter', loc: 'resto', name: 'Lett', ax: 0, az: -2.3, special: 'order', verb: 'Telli süüa' });
 STATIONS.push({ id: 'restoDoor', loc: 'resto', name: 'Uks', ax: 0, az: 3.65, special: 'toOut', verb: 'Mine õue' });
 [-1.5, 0, 1.5].forEach((x, i) => STATIONS.push({ id: 'cseat' + i, loc: 'cinema', name: 'Kinotool', ax: x, az: -.45, ux: x, uz: -1.5, ur: Math.PI, special: 'sit', cinema: true, verb: 'Istu ja vaata filmi' }));
+STATIONS.push({ id: 'friendCake', loc: 'friend', fparty: true, name: 'Sünnipäevatort', ax: -2.2, az: -.5, special: 'friendCake', verb: 'Laulame' });
+STATIONS.push({ id: 'sleepbag', loc: 'friend', fsleep: true, name: 'Magamiskott', ax: 2.45, az: -.6, special: 'sleepbag', verb: 'Heida magama' });
+STATIONS.push({ id: 'mailbox', loc: 'out', name: 'Sinu postkast', ax: 17.6, az: -3.05, special: 'mailbox', verb: 'Vaata postkasti' });
+STATIONS.push({ id: 'cake', loc: 'home', party: true, name: 'Sünnipäevatort', ax: 3.2, az: 1.2, special: 'cake', verb: 'Laulame' });
+STATIONS.push({ id: 'gifts', loc: 'home', party: true, name: 'Kingitused', ax: 4.4, az: 1.1, special: 'gifts', verb: 'Ava kingitus' });
+STATIONS.push({ id: 'outfit', loc: 'fashion', name: 'Garderoob', ax: -4.2, az: -5.9, special: 'outfit', verb: 'Vali riided' });
+STATIONS.push({ id: 'stage', loc: 'fashion', name: 'Poodium', ax: 1.8, az: -6.2, special: 'stage', verb: 'Astu lavale' });
+STATIONS.push({ id: 'fashionDoor', loc: 'fashion', name: 'Uks', ax: -5.8, az: 6.4, special: 'toOut', verb: 'Mine õue' });
 STATIONS.push({ id: 'ticket', loc: 'cinema', name: 'Kinokassa', ax: 5.0, az: 3.6, special: 'ticket', verb: 'Osta pilet' });
 STATIONS.push({ id: 'cinemaDoor', loc: 'cinema', name: 'Uks', ax: 0, az: 5.6, special: 'toOut', verb: 'Mine õue' });
 STATIONS.push({ id: 'till', loc: 'shop', name: 'Kassa', ax: 0, az: -2.3, special: 'shop', verb: 'Osta midagi' });
@@ -2943,8 +3746,15 @@ function renderHUD() {
   $('#enBar').style.width = S.energy + '%';
   $('#enBar').classList.toggle('low', S.energy < 20);
   $('#moneyTxt').textContent = `${S.money} €`;
-  $('#bagRow').hidden = !S.bag.length;
-  if (S.bag.length) { const c = {}; S.bag.forEach(b => c[b.name] = (c[b.name] || 0) + 1); $('#bagTxt').textContent = 'Kotis: ' + Object.entries(c).map(([n, k]) => k > 1 ? `${n.toLowerCase()} ×${k}` : n.toLowerCase()).join(', '); }
+  $('#bagRow').hidden = !S.bag.length && !S.gifts.length; $('#eatBtn').hidden = !S.bag.length;
+  { const parts = [], cnt = arr => { const c = {}; arr.forEach(n => c[n] = (c[n] || 0) + 1); return Object.entries(c).map(([n, k]) => k > 1 ? `${n} ×${k}` : n).join(', '); };
+    if (S.bag.length) parts.push('Kotis: ' + cnt(S.bag.map(b => b.name.toLowerCase())));
+    if (S.gifts.length) parts.push('Kingid: ' + cnt(S.gifts.map(g => GIFT_NAMES[g])));
+    $('#bagTxt').textContent = parts.join(' · '); }
+  const mr = $('#mailRow');
+  if (S.mail.length) { mr.hidden = false; mr.className = 'mail-row new'; mr.textContent = 'Postkastis on uus kiri! Postkast on sinu maja ees.'; }
+  else if (S.invite) { mr.hidden = false; mr.className = 'mail-row'; mr.textContent = `Kutse: ${npcById(S.invite.friend).name} sünnipäev. Mine ${genName(S.invite.friend)} koju.`; }
+  else mr.hidden = true;
   const md = S.medals; $('#medalRow').hidden = !(md[0] + md[1] + md[2]);
   $('#medalRow').innerHTML = `Medalid: <b>${md[0]}</b> kuld · ${md[1]} hõbe · ${md[2]} pronks`;
 }
@@ -3202,6 +4012,13 @@ function special(st) {
     case 'toOut': travel('out'); break;
     case 'visit': knock(st.friend); break;
     case 'enter': enterPlace(st.place); break;
+    case 'cake': cakeAction(); break;
+    case 'mailbox': openMailbox(); break;
+    case 'sleepbag': friendSleep(); break;
+    case 'friendCake': friendCakeAction(); break;
+    case 'gifts': if (S.party.gifts > 0) giftAction(); break;
+    case 'outfit': openSign('Garderoob', 'Moemaja Sära', '#ff5d8f', 'G', outfitNode()); break;
+    case 'stage': if (S.job) toast('Vii enne pitsad kohale!', ''); else startShow(); break;
     case 'ticket': openSign('Kino Täht', 'Kinokassa · Johanna', '#5b4a86', 'J', cinemaNode()); break;
     case 'order': openSign(PLACES[S.place].name, `Ettekandja ${PLACES[S.place].staff}`, hex(PLACES[S.place].accent), PLACES[S.place].staff[0], menuNode(S.place)); break;
     case 'shop': openSign(PLACES[S.place].name, `Müüja ${PLACES[S.place].staff}`, hex(PLACES[S.place].accent), PLACES[S.place].staff[0], shopNode(S.place)); break;
@@ -3302,6 +4119,8 @@ const joy = { x: 0, y: 0, id: null };
 let camYaw = 0, camDist = 9.5, camH = 6.6;
 addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
+  // while the "new game?" question is open the game ignores keys; Esc closes it, Enter/Space only press the focused button
+  if (!$('#confirmNew').hidden) { if (k === 'escape') closeConfirmNew(); return; }
   if ([' ', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) e.preventDefault();
   if (e.repeat && (k === ' ' || k === 'e' || k === 'enter')) return;
   keys[k] = true;
@@ -3309,6 +4128,7 @@ addEventListener('keydown', e => {
   if (k === 'f' && S.mode === 'play') eatFromBag();
   if (S.mode === 'play' && (k === 'e' || k === 'enter')) interact();
   else if (S.mode === 'exercise') { if (k === ' ' || k === 'e' || k === 'enter') rep(); if (k === 'escape' || k === 'q') stopExercise(); }
+  else if (S.mode === 'show') { if (k === ' ' || k === 'e' || k === 'enter') showPress(); }
   else if (S.mode === 'race') { if (k === 'escape') finishRace(false); }
   else if (S.mode === 'results') { if (k === 'enter' || k === ' ' || k === 'e' || k === 'escape') closeResults(); }
   else if (S.mode === 'sit') { if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'e', 'enter', 'escape', ' '].includes(k)) standUp(); }
@@ -3322,9 +4142,9 @@ addEventListener('keydown', e => {
 addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
 addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
 $('#dlgText').addEventListener('click', () => { if (dlg.shown < dlg.full.length) revealOpts(); });
-$('#repBtn').onclick = rep;
+$('#repBtn').onclick = () => S.mode === 'show' ? showPress() : rep();
 $('#stopBtn').onclick = () => S.mode === 'race' ? finishRace(false) : stopExercise();
-function closeResults() { $('#results').hidden = true; if (S.mode === 'results') S.mode = 'play'; }
+function closeResults() { $('#results').hidden = true; if (S.mode === 'results') S.mode = 'play'; if (S.show) finishShow(); }
 $('#rOk').onclick = closeResults;
 $('#eatBtn').onclick = () => { if (S.mode === 'play') eatFromBag(); };
 const cv = renderer.domElement;
@@ -3354,6 +4174,7 @@ $('#act').addEventListener('click', () => {
   if (S.mode === 'play') interact();
   else if (S.mode === 'sit') standUp();
   else if (S.mode === 'exercise') rep();
+  else if (S.mode === 'show') showPress();
   else if (S.mode === 'dialog') { if (dlg.shown < dlg.full.length) revealOpts(); else if (dlg.opts.length === 1) choose(0); }
 });
 $('#qToggle').onclick = () => { const q = $('#quests'); q.classList.toggle('collapsed'); $('#qToggle').textContent = q.classList.contains('collapsed') ? 'näita' : 'peida'; };
@@ -3366,7 +4187,7 @@ function findNear() {
   const p = player.char.position, home = S.loc === 'home';
   let best = null, bd = 1e9;
   for (const n of npcs) { if (n.loc !== S.loc) continue; const d = Math.hypot(n.char.position.x - p.x, n.char.position.z - p.z); if (d < 2.3 && d < bd) { bd = d; best = { type: 'npc', n }; } }
-  for (const s of STATIONS) { if (s.loc !== S.loc) continue; const d = Math.hypot(s.ax - p.x, s.az - p.z); if (d < 1.5 && d < bd) { bd = d; best = { type: 'st', s }; } }
+  for (const s of STATIONS) { if (s.loc !== S.loc || (s.party && !S.party) || (s.fparty && !fparty) || (s.fsleep && !fsleep)) continue; const d = Math.hypot(s.ax - p.x, s.az - p.z); if (d < 1.5 && d < bd) { bd = d; best = { type: 'st', s }; } }
   if (S.loc === 'gym' && !S.hasBottle) { const d = Math.hypot(bottle.position.x - p.x, bottle.position.z - p.z); if (d < 1.5 && d < bd) best = { type: 'bottle' }; }
   if (home) {
     const d = Math.hypot(cat.g.position.x - p.x, cat.g.position.z - p.z); if (d < 1.4 && d < bd) { bd = d; best = { type: 'cat' }; }
@@ -3476,14 +4297,16 @@ function beginPlay() {
   for (const id of ['#stats', '#quests']) $(id).hidden = false;
   if (!isTouch) $('#help').hidden = false;
   if (isTouch) { $('#joy').hidden = false; $('#act').hidden = false; }
+  const continuing = S.beenHome;
   S.mode = 'play';
   renderHUD(); renderQuests();
   beep([392, 523], .08, 'sine', .04);
-  // every game starts in your own home
+  // every game starts (and every saved game continues) in your own home
   S.beenHome = true;
   travel('home', { bus: true, quiet: true });
   player.char.position.set(-3.05, 0, -1.6); player.rot = Math.PI / 2;
-  setTimeout(() => toast('Tere hommikust! Oled kodus. Uksest saad õue: jõusaal on tänava vasakus servas.', 'gold'), 500);
+  setTimeout(() => toast(continuing ? 'Tere tagasi! Sinu mäng jätkub kodus.' : 'Tere hommikust! Oled kodus. Uksest saad õue: jõusaal on tänava vasakus servas.', 'gold'), 500);
+  saveLocal();
 }
 
 // ---------------------------------------------------------------- main loop
@@ -3496,6 +4319,7 @@ function updatePlayer(dt, t) {
   const ch = player.char, u = ch.userData;
   let target;
   if (S.mode === 'sleep') { u.move = 0; applyPose(ch, pose('sleep', ch, t), dt, 8); ch.rotation.set(-Math.PI / 2, 0, 0); return; }
+  if (S.mode === 'show' || (S.mode === 'results' && S.show)) return;
   if (S.mode === 'sit') {
     u.move = 0; ch.position.y = player.sitY || 0; ch.rotation.y = player.rot; applyPose(ch, pose(player.sitPose || 'sit', ch, t), dt, 10);
     if (Math.hypot(joy.x, joy.y) > .4) standUp();
@@ -3689,6 +4513,7 @@ function updateCamera(dt, t) {
     tx = p.x; ty = p.y + 1.1; tz = p.z;
     if (S.mode === 'sit' && player.sitY > 5) { dist = 15; hgt = 6; }
     if (S.loc === 'cinema' && S.movie) { tx = 0; ty = 2.2; tz = -3.6; dist = 9; hgt = .7; }
+    if (S.show) { dist = 6.5; hgt = 1.4; ty = p.y + 1.0; }
     if (S.loc === 'home') { dist = Math.min(dist, 8); hgt = Math.min(hgt, 5.6); }
     if (S.loc === 'out') { dist = Math.max(dist, 11); hgt = Math.max(hgt, 9); }
     if (S.mode === 'sleep') { dist = 5.5; hgt = 4.2; }
@@ -3758,6 +4583,14 @@ function frame() {
   if (S.loc === 'resto') updateResto(dt, t);
   updateJob(dt, t);
   if (S.loc === 'cinema') updateCinema(dt, t);
+  if (S.loc === 'fashion') updateFashion(dt, t);
+  if (S.party) updateParty(dt, t);
+  if (mailFlag) {
+    const has = S.mail.length > 0;
+    mailFlag.rotation.z += ((has ? 0 : -Math.PI / 2) - mailFlag.rotation.z) * (1 - Math.exp(-dt * 6));
+    mailEnv.visible = has; mailEnv.position.y = 2.3 + .15 * Math.sin(t * 3); mailEnv.rotation.y = t * 1.5;
+  }
+  if (fparty && S.loc === 'friend') updateFriendParty(dt, t);
   if (S.loc === 'shop') { const c = cashier.char; applyPose(c, pose('idle', c, t), dt, 10); if (cashier.bubbleUntil && t > cashier.bubbleUntil) { cashier.bubbleUntil = 0; cashier.bubbleEl.hidden = true; } }
   if (S.loc === 'out') { updateFountain(t); updateOcclusion(); }
   if (S.loc === 'home') { tvTimer -= dt; if (tvTimer <= 0) { tvTimer = .1; drawTV(t); } }
@@ -3786,13 +4619,60 @@ function restore(d) {
   if (!d || !d.S) return;
   Object.assign(S, d.S); Object.assign(look, d.look || {});
   for (const k in d.q || {}) if (quests[k]) Object.assign(quests[k], d.q[k]);
-  if (['exercise', 'dialog', 'end', 'sleep', 'sit', 'race', 'results', 'bus'].includes(S.mode)) S.mode = 'play';
+  if (['exercise', 'dialog', 'end', 'sleep', 'sit', 'race', 'results', 'bus', 'show', 'invite'].includes(S.mode)) S.mode = 'play';
+  S.party = null; S.invite = null; S.sleepover = false;
+  S.show = null;
   S.job = null; S.movie = null; S.order = null; S.popcorn = false;
   S.loc = 'gym';
   if (S.hasBottle) bottle.visible = false;
   homeMedal.visible = S.medal;
   S.medals.forEach((n, i) => { for (let k = 0; k < n; k++) addTrophy(i); });
+  $('#muteBtn').textContent = S.muted ? 'Heli: väljas' : 'Heli: sees';
 }
+
+// ---------------------------------------------------------------- browser save (localStorage)
+const SAVE_KEY = 'girl-gym-save-v1';
+let resetting = false;
+function saveLocal() {
+  if (resetting || !started || S.mode === 'start') return;
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(snapshot())); } catch (e) { /* storage blocked or full */ }
+}
+function loadLocal() {
+  try { const d = JSON.parse(localStorage.getItem(SAVE_KEY)); return d && d.S ? d : null; } catch (e) { return null; }
+}
+setInterval(saveLocal, 5000);
+addEventListener('pagehide', saveLocal);
+document.addEventListener('visibilitychange', () => { if (document.hidden) saveLocal(); });
+
+// ---------------------------------------------------------------- new game (with confirmation)
+let confirmTimer = 0, confirmReturn = null;
+function openConfirmNew() {
+  confirmReturn = document.activeElement;
+  for (const k in keys) keys[k] = false;
+  const yes = $('#cnYes');
+  yes.disabled = true;
+  $('#confirmNew').hidden = false;
+  $('#cnNo').focus();
+  // the delete button wakes up only after a moment, so a quick double-click or key mash cannot hit it
+  clearTimeout(confirmTimer);
+  confirmTimer = setTimeout(() => { yes.disabled = false; }, 1500);
+}
+function closeConfirmNew() {
+  clearTimeout(confirmTimer);
+  $('#confirmNew').hidden = true;
+  if (confirmReturn && confirmReturn.focus) confirmReturn.focus();
+}
+function newGame() {
+  resetting = true;
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+  location.reload();
+}
+$('#newBtn').onclick = openConfirmNew;
+$('#newGame').onclick = openConfirmNew;
+$('#cnNo').onclick = closeConfirmNew;
+$('#cnYes').onclick = () => { if (!$('#cnYes').disabled) newGame(); };
+$('#confirmNew').addEventListener('pointerdown', e => { if (e.target.id === 'confirmNew') closeConfirmNew(); });
+
 let started = false;
 function start(data) {
   if (started) return; started = true;
@@ -3811,15 +4691,28 @@ function start(data) {
   scene = restoScene; colliders = restoCols; room = RESTO; buildResto();
   scene = shopScene; colliders = shopCols; room = SHOP; buildShop();
   scene = cinemaScene; colliders = cinemaCols; room = CINEMA; buildCinema();
+  scene = fashionScene; colliders = fashionCols; room = FASHION; buildFashion();
   buildJobMarker();
   scene = gymScene; colliders = gymCols; room = { hw: HW, hd: HD };
-  restore(data && data.save);
+  const hotSave = data && data.save;
+  const localSave = hotSave ? null : loadLocal();
+  restore(hotSave || localSave);
   spawnPlayer(); applyCap();
   swatches($('#topSw'), TOPS, TOP_NAMES, 'top');
   swatches($('#hairSw'), HAIRS, HAIR_NAMES, 'hair');
   $('#go').onclick = beginPlay;
+  if (localSave && localSave.S.mode !== 'start') {
+    // a game saved in this browser: offer to continue it, or to start over
+    S.mode = 'start';
+    $('#startEyebrow').textContent = 'Tere tagasi!';
+    const info = $('#saveInfo');
+    info.textContent = `Salvestatud mäng: tase ${S.lvl} · päev ${S.day} · ${doneCount()}/${Object.keys(quests).length} ülesannet · ${S.money} €`;
+    info.hidden = false;
+    $('#go').textContent = 'Jätka mängu';
+    $('#newGame').hidden = false;
+  }
   if (S.mode === 'play') { S.mode = 'start'; beginPlay(); }
-  try { window.claude?.hot?.snapshot?.(() => ({ save: snapshot() })); } catch (e) { /* not in a viewer */ }
+  try { window.claude?.hot?.snapshot?.(() => (resetting ? {} : { save: snapshot() })); } catch (e) { /* not in a viewer */ }
   requestAnimationFrame(frame);}
 const fontsReady = Promise.race([
   Promise.all([document.fonts.load('800 64px Unbounded'), document.fonts.load('700 28px "Nunito Sans"')]).catch(() => {}),
